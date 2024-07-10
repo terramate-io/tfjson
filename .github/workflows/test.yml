@@ -37,7 +37,7 @@ jobs:
       - name: Go mod verify
         run: go mod verify
       - name: Run tests
-        run: go test -count=1 -v ./...
+        run: go test -race -count=1 -v ./...
 
   ci:
     needs:
