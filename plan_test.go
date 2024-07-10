@@ -152,7 +152,7 @@ func TestPlan_UnmarshalJSON(t *testing.T) {
 
 			plan.UseJSONNumber(testCase.useJSONNumber)
 
-			err = plan.UnmarshalJSON(b)
+			err := plan.UnmarshalJSON(b)
 
 			if err != nil {
 				t.Fatal(err)
