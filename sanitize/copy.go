@@ -75,3 +75,33 @@ func copyStateOutputs(old map[string]*tfjson.StateOutput) (map[string]*tfjson.St
 
 	return c.(map[string]*tfjson.StateOutput), nil
 }
+
+// copyProviderConfig copies a ProviderConfig value and returns a pointer to the copy.
+func copyProviderConfig(old *tfjson.ProviderConfig) (*tfjson.ProviderConfig, error) {
+	c, err := copyStructureCopy(old)
+	if err != nil {
+		return nil, err
+	}
+
+	return c.(*tfjson.ProviderConfig), nil
+}
+
+// copyConfigOutput copies a ConfigOutput value and returns a pointer to the copy.
+func copyConfigOutput(old *tfjson.ConfigOutput) (*tfjson.ConfigOutput, error) {
+	c, err := copyStructureCopy(old)
+	if err != nil {
+		return nil, err
+	}
+
+	return c.(*tfjson.ConfigOutput), nil
+}
+
+// copyConfigVariable copies a ConfigVariable value and returns a pointer to the copy.
+func copyConfigVariable(old *tfjson.ConfigVariable) (*tfjson.ConfigVariable, error) {
+	c, err := copyStructureCopy(old)
+	if err != nil {
+		return nil, err
+	}
+
+	return c.(*tfjson.ConfigVariable), nil
+}

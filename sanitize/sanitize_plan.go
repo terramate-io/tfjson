@@ -113,5 +113,22 @@ func SanitizePlanWithValue(old *tfjson.Plan, replaceWith interface{}) (*tfjson.P
 		}
 	}
 
+	// Sanitize ProviderConfigs
+	result.Config.ProviderConfigs, err = SanitizeProviderConfigs(result.Config.ProviderConfigs, replaceWith)
+	if err != nil {
+		return nil, err
+	}
+
+	// Sanitize RootModule variables
+	result.Config.RootModule.Variables, err = SanitizeConfigVariables(result.Config.RootModule.Variables, replaceWith)
+	if err != nil {
+		return nil, err
+	}
+
+	// Sanitize RootModule outputs
+	result.Config.RootModule.Outputs, err = SanitizeConfigOutputs(result.Config.RootModule.Outputs, replaceWith)
+	if err != nil {
+		return nil, err
+	}
 	return result, nil
 }
