@@ -6,7 +6,7 @@ package sanitize
 import (
 	"errors"
 
-	tfjson "github.com/hashicorp/terraform-json"
+	"github.com/terramate-io/tfjson"
 )
 
 const DefaultSensitiveValue = "REDACTED_SENSITIVE"

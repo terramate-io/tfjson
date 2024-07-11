@@ -1,6 +1,6 @@
-module github.com/hashicorp/terraform-json
+module github.com/terramate-io/tfjson
 
-go 1.18
+go 1.20
 
 require (
 	github.com/davecgh/go-spew v1.1.1

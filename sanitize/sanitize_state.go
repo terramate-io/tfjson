@@ -6,7 +6,7 @@ package sanitize
 import (
 	"fmt"
 
-	tfjson "github.com/hashicorp/terraform-json"
+	"github.com/terramate-io/tfjson"
 )
 
 type SanitizeStateModuleChangeMode string

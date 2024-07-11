@@ -6,15 +6,15 @@ package sanitize
 import (
 	"reflect"
 
-	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/mitchellh/copystructure"
+	"github.com/terramate-io/tfjson"
 )
 
 // copyStructureCopy is an internal function that wraps copystructure.Copy with
 // a shallow copier for unknown values.
 //
 // Performing the shallow copy of the unknown values is important
-// here, as unknown values are parsed in with the main terraform-json
+// here, as unknown values are parsed in with the main tfjjson
 // package as singletons, and must continue to be comparable.
 func copyStructureCopy(v interface{}) (interface{}, error) {
 	c := &copystructure.Config{
