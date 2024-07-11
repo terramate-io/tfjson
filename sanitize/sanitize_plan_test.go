@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/sebdah/goldie"
+	"github.com/terramate-io/tfjson"
 )
 
 const testDataDir = "testdata"

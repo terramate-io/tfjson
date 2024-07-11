@@ -4,7 +4,7 @@
 package sanitize
 
 import (
-	tfjson "github.com/hashicorp/terraform-json"
+	"github.com/terramate-io/tfjson"
 )
 
 // SanitizeChange traverses a Change and replaces all values at
