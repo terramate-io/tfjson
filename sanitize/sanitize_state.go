@@ -6,6 +6,8 @@ package sanitize
 import (
 	"fmt"
 
+	"encoding/json"
+
 	"github.com/terramate-io/tfjson"
 )
 
@@ -80,21 +82,21 @@ func sanitizeStateResource(
 	if err != nil {
 		return nil, err
 	}
-
-	if rc == nil {
-		return result, nil
-	}
-
 	var sensitive interface{}
-	switch mode {
-	case SanitizeStateModuleChangeModeBefore:
-		sensitive = rc.Change.BeforeSensitive
-
-	case SanitizeStateModuleChangeModeAfter:
-		sensitive = rc.Change.AfterSensitive
-
-	default:
-		panic(fmt.Sprintf("invalid change mode %q", mode))
+	if rc == nil {
+		err = json.Unmarshal(old.SensitiveValues, &sensitive)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		switch mode {
+		case SanitizeStateModuleChangeModeBefore:
+			sensitive = rc.Change.BeforeSensitive
+		case SanitizeStateModuleChangeModeAfter:
+			sensitive = rc.Change.AfterSensitive
+		default:
+			panic(fmt.Sprintf("invalid change mode %q", mode))
+		}
 	}
 
 	// We can re-use sanitizeChangeValue here to do the sanitization.

@@ -14,7 +14,7 @@ import (
 // a shallow copier for unknown values.
 //
 // Performing the shallow copy of the unknown values is important
-// here, as unknown values are parsed in with the main tfjjson
+// here, as unknown values are parsed in with the main tfjson
 // package as singletons, and must continue to be comparable.
 func copyStructureCopy(v interface{}) (interface{}, error) {
 	c := &copystructure.Config{

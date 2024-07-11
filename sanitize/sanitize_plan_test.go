@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sebdah/goldie"
+	"github.com/sebdah/goldie/v2"
 	"github.com/terramate-io/tfjson"
 )
 
@@ -40,7 +40,9 @@ func testSanitizePlanGoldenEntry(c testGoldenCase) func(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		goldie.AssertJson(t, c.Name(), p)
+		g := goldie.New(t)
+		g.WithFixtureDir(testDataDir)
+		g.AssertJson(t, c.Name(), p)
 	}
 }
 
@@ -82,8 +84,4 @@ func goldenCases() ([]testGoldenCase, error) {
 	}
 
 	return result, err
-}
-
-func init() {
-	goldie.FixtureDir = testDataDir
 }
