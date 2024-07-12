@@ -59,6 +59,23 @@ func SanitizeConfigVariables(old map[string]*tfjson.ConfigVariable, replaceWith 
 	return variables, nil
 }
 
+func SanitizeModuleResourceProvisioners(old []*tfjson.ConfigResource, replaceWith interface{}) ([]*tfjson.ConfigResource, error) {
+	resources := make([]*tfjson.ConfigResource, len(old))
+	for i, res := range old {
+		r, err := copyConfigResource(res)
+		if err != nil {
+			return nil, err
+		}
+		for _, prov := range r.Provisioners {
+			for _, expr := range prov.Expressions {
+				sanitizeExpression(expr, replaceWith)
+			}
+		}
+		resources[i] = r
+	}
+	return resources, nil
+}
+
 func sanitizeExpression(expression *tfjson.Expression, replaceWith interface{}) {
 	if expression == nil || expression.ExpressionData == nil {
 		return
