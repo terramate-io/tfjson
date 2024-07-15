@@ -59,21 +59,42 @@ func SanitizeConfigVariables(old map[string]*tfjson.ConfigVariable, replaceWith 
 	return variables, nil
 }
 
-func SanitizeModuleResourceProvisioners(old []*tfjson.ConfigResource, replaceWith interface{}) ([]*tfjson.ConfigResource, error) {
-	resources := make([]*tfjson.ConfigResource, len(old))
-	for i, res := range old {
-		r, err := copyConfigResource(res)
-		if err != nil {
-			return nil, err
-		}
-		for _, prov := range r.Provisioners {
-			for _, expr := range prov.Expressions {
+func sanitizeModuleConfig(module *tfjson.ConfigModule, replaceWith interface{}) error {
+	var err error
+	module.Variables, err = SanitizeConfigVariables(module.Variables, replaceWith)
+	if err != nil {
+		return err
+	}
+
+	for _, res := range module.Resources {
+		sanitizeResourceConfig(res, replaceWith)
+	}
+
+	for _, mod := range module.ModuleCalls {
+		for name, expr := range mod.Expressions {
+			if mod.Module.Variables == nil {
+				// NOTE(i4k): this should never happen because a module always define all its input.
+				// but in case we are dealing with a pre-processed JSON, this ensures
+				// we don't leak variables missing definitions.
+				sanitizeExpression(expr, replaceWith)
+			}
+			if varConfig, ok := mod.Module.Variables[name]; ok && varConfig.Sensitive {
 				sanitizeExpression(expr, replaceWith)
 			}
 		}
-		resources[i] = r
+
+		sanitizeModuleConfig(mod.Module, replaceWith)
 	}
-	return resources, nil
+
+	return nil
+}
+
+func sanitizeResourceConfig(r *tfjson.ConfigResource, replaceWith interface{}) {
+	for _, prov := range r.Provisioners {
+		for _, expr := range prov.Expressions {
+			sanitizeExpression(expr, replaceWith)
+		}
+	}
 }
 
 func sanitizeExpression(expression *tfjson.Expression, replaceWith interface{}) {

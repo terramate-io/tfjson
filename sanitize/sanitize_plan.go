@@ -119,14 +119,8 @@ func SanitizePlanWithValue(old *tfjson.Plan, replaceWith interface{}) (*tfjson.P
 		return nil, err
 	}
 
-	// Sanitize RootModule variables
-	result.Config.RootModule.Variables, err = SanitizeConfigVariables(result.Config.RootModule.Variables, replaceWith)
-	if err != nil {
-		return nil, err
-	}
-
-	// Sanitize RootModule resource provisioners
-	result.Config.RootModule.Resources, err = SanitizeModuleResourceProvisioners(result.Config.RootModule.Resources, replaceWith)
+	// Sanitize RootModule recursively into module calls and child_modules
+	err = sanitizeModuleConfig(result.Config.RootModule, replaceWith)
 	if err != nil {
 		return nil, err
 	}
