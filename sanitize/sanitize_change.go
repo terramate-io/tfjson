@@ -25,6 +25,10 @@ func SanitizeChange(old *tfjson.Change, replaceWith interface{}) (*tfjson.Change
 }
 
 func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
+	if old == nil {
+		return nil
+	}
+
 	// Only expect deep types that we would normally see in JSON, so
 	// arrays and objects.
 	switch x := old.(type) {
