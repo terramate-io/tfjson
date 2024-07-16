@@ -67,6 +67,14 @@ func SanitizePlanWithValue(old *tfjson.Plan, replaceWith interface{}) (*tfjson.P
 		}
 	}
 
+	// Sanitize ResourceDrifts
+	for i := range result.ResourceDrift {
+		result.ResourceDrift[i].Change, err = SanitizeChange(result.ResourceDrift[i].Change, replaceWith)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	// Sanitize Variables
 	result.Variables, err = SanitizePlanVariables(result.Variables, result.Config.RootModule.Variables, replaceWith)
 	if err != nil {

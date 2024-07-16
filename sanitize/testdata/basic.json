@@ -569,6 +569,44 @@
       "action_reason": "replace_because_cannot_update"
     }
   ],
+  "resource_drift": [
+    {
+      "address": "module.secret-file.module.other-files.local_file.secret-2",
+      "module_address": "module.secret-file.module.other-files",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "secret-2",
+      "provider_name": "registry.terraform.io/hashicorp/local",
+      "change": {
+        "actions": [
+          "delete"
+        ],
+        "before": {
+          "content": "something SECRET else",
+          "content_base64": null,
+          "content_base64sha256": "L12f0IxoZI2GOMxxx2Dc225XLii7HTT+QjUsY47gUI0=",
+          "content_base64sha512": "W27m9gsPqekAzrAeHriJ2U4t7XWlEUKHuSTcg2tJ/aRtJiQxqMEZIDfdleiHHLBbgrJ6xE85P6Gk2eEbQ2hbBw==",
+          "content_md5": "0d03a8aee19798127452c9737ee5b4af",
+          "content_sha1": "94494787a843e82d6595a816a27a48dcd1ab1ee8",
+          "content_sha256": "2f5d9fd08c68648d8638cc71c760dcdb6e572e28bb1d34fe42352c638ee0508d",
+          "content_sha512": "5b6ee6f60b0fa9e900ceb01e1eb889d94e2ded75a5114287b924dc836b49fda46d262431a8c1192037dd95e8871cb05b82b27ac44f393fa1a4d9e11b43685b07",
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "mod-basic-2/secret.txt",
+          "id": "94494787a843e82d6595a816a27a48dcd1ab1ee8",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after": null,
+        "after_unknown": {},
+        "before_sensitive": {
+          "content": true,
+          "sensitive_content": true
+        },
+        "after_sensitive": false
+      }
+    }
+  ],
   "output_changes": {
     "secret": {
       "actions": [
