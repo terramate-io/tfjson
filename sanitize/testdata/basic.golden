@@ -106,7 +106,7 @@
                 "file_permission": "0777",
                 "filename": "mod-basic/plain.txt",
                 "id": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
-                "sensitive_content": "REDACTED_SENSITIVE",
+                "sensitive_content": null,
                 "source": null
               },
               "sensitive_values": {}
@@ -131,7 +131,7 @@
                 "file_permission": "0777",
                 "filename": "mod-basic/secret.txt",
                 "id": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
-                "sensitive_content": "REDACTED_SENSITIVE",
+                "sensitive_content": null,
                 "source": null
               },
               "sensitive_values": {
@@ -163,7 +163,7 @@
                     "file_permission": "0777",
                     "filename": "mod-basic-2/plain.txt",
                     "id": "1d9441803d40363f23cd3d24af483919114b0b80",
-                    "sensitive_content": "REDACTED_SENSITIVE",
+                    "sensitive_content": null,
                     "source": null
                   },
                   "sensitive_values": {}
@@ -181,7 +181,7 @@
                     "directory_permission": "0777",
                     "file_permission": "0777",
                     "filename": "mod-basic-2/secret.txt",
-                    "sensitive_content": "REDACTED_SENSITIVE",
+                    "sensitive_content": null,
                     "source": null
                   },
                   "sensitive_values": {
@@ -353,7 +353,7 @@
           "file_permission": "0777",
           "filename": "mod-basic/plain.txt",
           "id": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
-          "sensitive_content": "REDACTED_SENSITIVE",
+          "sensitive_content": null,
           "source": null
         },
         "after": {
@@ -369,7 +369,7 @@
           "file_permission": "0777",
           "filename": "mod-basic/plain.txt",
           "id": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
-          "sensitive_content": "REDACTED_SENSITIVE",
+          "sensitive_content": null,
           "source": null
         },
         "after_unknown": {},
@@ -405,7 +405,7 @@
           "file_permission": "0777",
           "filename": "mod-basic/secret.txt",
           "id": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
-          "sensitive_content": "REDACTED_SENSITIVE",
+          "sensitive_content": null,
           "source": null
         },
         "after": {
@@ -421,7 +421,7 @@
           "file_permission": "0777",
           "filename": "mod-basic/secret.txt",
           "id": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
-          "sensitive_content": "REDACTED_SENSITIVE",
+          "sensitive_content": null,
           "source": null
         },
         "after_unknown": {},
@@ -459,7 +459,7 @@
           "file_permission": "0777",
           "filename": "mod-basic-2/plain.txt",
           "id": "1d9441803d40363f23cd3d24af483919114b0b80",
-          "sensitive_content": "REDACTED_SENSITIVE",
+          "sensitive_content": null,
           "source": null
         },
         "after": {
@@ -475,7 +475,7 @@
           "file_permission": "0777",
           "filename": "mod-basic-2/plain.txt",
           "id": "1d9441803d40363f23cd3d24af483919114b0b80",
-          "sensitive_content": "REDACTED_SENSITIVE",
+          "sensitive_content": null,
           "source": null
         },
         "after_unknown": {},
@@ -512,7 +512,7 @@
           "file_permission": "0777",
           "filename": "mod-basic-2/secret.txt",
           "id": "f32d425f8268736918a4c30226177b7e5610f304",
-          "sensitive_content": "REDACTED_SENSITIVE",
+          "sensitive_content": null,
           "source": null
         },
         "after": {
@@ -521,7 +521,7 @@
           "directory_permission": "0777",
           "file_permission": "0777",
           "filename": "mod-basic-2/secret.txt",
-          "sensitive_content": "REDACTED_SENSITIVE",
+          "sensitive_content": null,
           "source": null
         },
         "after_unknown": {
@@ -782,7 +782,7 @@
                   "file_permission": "0777",
                   "filename": "mod-basic/plain.txt",
                   "id": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
-                  "sensitive_content": "REDACTED_SENSITIVE",
+                  "sensitive_content": null,
                   "source": null
                 },
                 "sensitive_values": {
@@ -809,7 +809,7 @@
                   "file_permission": "0777",
                   "filename": "mod-basic/secret.txt",
                   "id": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
-                  "sensitive_content": "REDACTED_SENSITIVE",
+                  "sensitive_content": null,
                   "source": null
                 },
                 "sensitive_values": {
@@ -842,7 +842,7 @@
                       "file_permission": "0777",
                       "filename": "mod-basic-2/plain.txt",
                       "id": "1d9441803d40363f23cd3d24af483919114b0b80",
-                      "sensitive_content": "REDACTED_SENSITIVE",
+                      "sensitive_content": null,
                       "source": null
                     },
                     "sensitive_values": {
@@ -869,7 +869,7 @@
                       "file_permission": "0777",
                       "filename": "mod-basic-2/secret.txt",
                       "id": "f32d425f8268736918a4c30226177b7e5610f304",
-                      "sensitive_content": "REDACTED_SENSITIVE",
+                      "sensitive_content": null,
                       "source": null
                     },
                     "sensitive_values": {
