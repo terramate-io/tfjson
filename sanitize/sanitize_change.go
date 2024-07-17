@@ -35,15 +35,15 @@ func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
 
 	// Only expect deep types that we would normally see in JSON, so
 	// arrays and objects.
-	switch x := old.(type) {
+	switch values := old.(type) {
 	case []interface{}:
 		if filterSlice, ok := sensitive.([]interface{}); ok {
 			for i := range filterSlice {
-				if i >= len(x) {
+				if i >= len(values) {
 					break
 				}
 
-				x[i] = sanitizeChangeValue(x[i], filterSlice[i], replaceWith)
+				values[i] = sanitizeChangeValue(values[i], filterSlice[i], replaceWith)
 			}
 		}
 	case map[string]interface{}:
@@ -52,11 +52,36 @@ func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
 			break
 		}
 		for filterKey := range filterMap {
-			if value, ok := x[filterKey]; ok {
-				x[filterKey] = sanitizeChangeValue(value, filterMap[filterKey], replaceWith)
+			value, ok := values[filterKey]
+			if !ok {
+				continue
 			}
+			values[filterKey] = sanitizeChangeValue(value, filterMap[filterKey], replaceWith)
+			sanitizeAuxiliary(filterKey, values, filterMap[filterKey], replaceWith)
 		}
 	}
 
 	return old
+}
+
+func sanitizeAuxiliary(field string, values map[string]interface{}, sensitive, replaceWith interface{}) {
+	if val, ok := sensitive.(bool); !ok || !val {
+		return
+	}
+
+	for _, aux := range []string{
+		"base64",
+		"base64sha1",
+		"base64sha256",
+		"base64sha512",
+		"md5",
+		"sha1",
+		"sha256",
+		"sha512",
+	} {
+		auxField := field + "_" + aux
+		if val, ok := values[auxField]; ok && val != nil {
+			values[auxField] = replaceWith
+		}
+	}
 }
