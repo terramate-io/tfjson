@@ -82,6 +82,117 @@
             }
           }
         }
+      ],
+      "child_modules": [
+        {
+          "resources": [
+            {
+              "address": "module.secret-file.local_file.non-secret",
+              "mode": "managed",
+              "type": "local_file",
+              "name": "non-secret",
+              "provider_name": "registry.terraform.io/hashicorp/local",
+              "schema_version": 0,
+              "values": {
+                "content": "HELLO",
+                "content_base64": null,
+                "content_base64sha256": "NzPNl3/46xi5hzV+Is7Zn0YJfzHssjnoeK5jdg6D5NU=",
+                "content_base64sha512": "M98tzDHTXnvCVovr9dc6HkOg5iS2Ubpe8xV7v7coRGZ0ojG4tul/oeVww7HebWxndUGyYqwir9pYePorWRx/CA==",
+                "content_md5": "eb61eead90e3b899c6bcbe27ac581660",
+                "content_sha1": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
+                "content_sha256": "3733cd977ff8eb18b987357e22ced99f46097f31ecb239e878ae63760e83e4d5",
+                "content_sha512": "33df2dcc31d35e7bc2568bebf5d73a1e43a0e624b651ba5ef3157bbfb728446674a231b8b6e97fa1e570c3b1de6d6c677541b262ac22afda5878fa2b591c7f08",
+                "directory_permission": "0777",
+                "file_permission": "0777",
+                "filename": "mod-basic/plain.txt",
+                "id": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
+                "sensitive_content": "REDACTED_SENSITIVE",
+                "source": null
+              },
+              "sensitive_values": {}
+            },
+            {
+              "address": "module.secret-file.local_file.secret",
+              "mode": "managed",
+              "type": "local_file",
+              "name": "secret",
+              "provider_name": "registry.terraform.io/hashicorp/local",
+              "schema_version": 0,
+              "values": {
+                "content": "REDACTED_SENSITIVE",
+                "content_base64": null,
+                "content_base64sha256": "CRexOpCRkV1UtjNvRZCVOczkUrNmGyHzhkGKJXiDswo=",
+                "content_base64sha512": "/rZUHUkqHVA5TMRI6cTQisOBxckKZWsZIBus/flGK4eopVeaR4EGCcIwfeyS9SyI8hj9MHWv4CYpvF/QHOc0/Q==",
+                "content_md5": "44c7be48226ebad5dca8216674cad62b",
+                "content_sha1": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
+                "content_sha256": "0917b13a9091915d54b6336f45909539cce452b3661b21f386418a257883b30a",
+                "content_sha512": "feb6541d492a1d50394cc448e9c4d08ac381c5c90a656b19201bacfdf9462b87a8a5579a47810609c2307dec92f52c88f218fd3075afe02629bc5fd01ce734fd",
+                "directory_permission": "0777",
+                "file_permission": "0777",
+                "filename": "mod-basic/secret.txt",
+                "id": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
+                "sensitive_content": "REDACTED_SENSITIVE",
+                "source": null
+              },
+              "sensitive_values": {
+                "content": true
+              }
+            }
+          ],
+          "address": "module.secret-file",
+          "child_modules": [
+            {
+              "resources": [
+                {
+                  "address": "module.secret-file.module.other-files.local_file.non-secret-2",
+                  "mode": "managed",
+                  "type": "local_file",
+                  "name": "non-secret-2",
+                  "provider_name": "registry.terraform.io/hashicorp/local",
+                  "schema_version": 0,
+                  "values": {
+                    "content": "something HELLO",
+                    "content_base64": null,
+                    "content_base64sha256": "xaEGJndtkGf+98mCnoeBd2ZkTHMkbW77uM0K0kMTbz8=",
+                    "content_base64sha512": "FJO7WHoOusaIIDgEBUn8ZsTuXdIcHpjVot9rxxXVdmZ2u0WxqYoBTSLm+uD9eqsNjMqjZrZCFe9ofgen6U9q4A==",
+                    "content_md5": "0661a27a1a8bb8c103b7156705579419",
+                    "content_sha1": "1d9441803d40363f23cd3d24af483919114b0b80",
+                    "content_sha256": "c5a10626776d9067fef7c9829e87817766644c73246d6efbb8cd0ad243136f3f",
+                    "content_sha512": "1493bb587a0ebac6882038040549fc66c4ee5dd21c1e98d5a2df6bc715d5766676bb45b1a98a014d22e6fae0fd7aab0d8ccaa366b64215ef687e07a7e94f6ae0",
+                    "directory_permission": "0777",
+                    "file_permission": "0777",
+                    "filename": "mod-basic-2/plain.txt",
+                    "id": "1d9441803d40363f23cd3d24af483919114b0b80",
+                    "sensitive_content": "REDACTED_SENSITIVE",
+                    "source": null
+                  },
+                  "sensitive_values": {}
+                },
+                {
+                  "address": "module.secret-file.module.other-files.local_file.secret-2",
+                  "mode": "managed",
+                  "type": "local_file",
+                  "name": "secret-2",
+                  "provider_name": "registry.terraform.io/hashicorp/local",
+                  "schema_version": 0,
+                  "values": {
+                    "content": "REDACTED_SENSITIVE",
+                    "content_base64": null,
+                    "directory_permission": "0777",
+                    "file_permission": "0777",
+                    "filename": "mod-basic-2/secret.txt",
+                    "sensitive_content": "REDACTED_SENSITIVE",
+                    "source": null
+                  },
+                  "sensitive_values": {
+                    "content": true
+                  }
+                }
+              ],
+              "address": "module.secret-file.module.other-files"
+            }
+          ]
+        }
       ]
     }
   },
@@ -216,6 +327,225 @@
             "foo": true
           }
         }
+      }
+    },
+    {
+      "address": "module.secret-file.local_file.non-secret",
+      "module_address": "module.secret-file",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "non-secret",
+      "provider_name": "registry.terraform.io/hashicorp/local",
+      "change": {
+        "actions": [
+          "no-op"
+        ],
+        "before": {
+          "content": "HELLO",
+          "content_base64": null,
+          "content_base64sha256": "NzPNl3/46xi5hzV+Is7Zn0YJfzHssjnoeK5jdg6D5NU=",
+          "content_base64sha512": "M98tzDHTXnvCVovr9dc6HkOg5iS2Ubpe8xV7v7coRGZ0ojG4tul/oeVww7HebWxndUGyYqwir9pYePorWRx/CA==",
+          "content_md5": "eb61eead90e3b899c6bcbe27ac581660",
+          "content_sha1": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
+          "content_sha256": "3733cd977ff8eb18b987357e22ced99f46097f31ecb239e878ae63760e83e4d5",
+          "content_sha512": "33df2dcc31d35e7bc2568bebf5d73a1e43a0e624b651ba5ef3157bbfb728446674a231b8b6e97fa1e570c3b1de6d6c677541b262ac22afda5878fa2b591c7f08",
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "mod-basic/plain.txt",
+          "id": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
+          "sensitive_content": "REDACTED_SENSITIVE",
+          "source": null
+        },
+        "after": {
+          "content": "HELLO",
+          "content_base64": null,
+          "content_base64sha256": "NzPNl3/46xi5hzV+Is7Zn0YJfzHssjnoeK5jdg6D5NU=",
+          "content_base64sha512": "M98tzDHTXnvCVovr9dc6HkOg5iS2Ubpe8xV7v7coRGZ0ojG4tul/oeVww7HebWxndUGyYqwir9pYePorWRx/CA==",
+          "content_md5": "eb61eead90e3b899c6bcbe27ac581660",
+          "content_sha1": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
+          "content_sha256": "3733cd977ff8eb18b987357e22ced99f46097f31ecb239e878ae63760e83e4d5",
+          "content_sha512": "33df2dcc31d35e7bc2568bebf5d73a1e43a0e624b651ba5ef3157bbfb728446674a231b8b6e97fa1e570c3b1de6d6c677541b262ac22afda5878fa2b591c7f08",
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "mod-basic/plain.txt",
+          "id": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
+          "sensitive_content": "REDACTED_SENSITIVE",
+          "source": null
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "sensitive_content": true
+        },
+        "after_sensitive": {
+          "sensitive_content": true
+        }
+      }
+    },
+    {
+      "address": "module.secret-file.local_file.secret",
+      "module_address": "module.secret-file",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "secret",
+      "provider_name": "registry.terraform.io/hashicorp/local",
+      "change": {
+        "actions": [
+          "no-op"
+        ],
+        "before": {
+          "content": "REDACTED_SENSITIVE",
+          "content_base64": null,
+          "content_base64sha256": "CRexOpCRkV1UtjNvRZCVOczkUrNmGyHzhkGKJXiDswo=",
+          "content_base64sha512": "/rZUHUkqHVA5TMRI6cTQisOBxckKZWsZIBus/flGK4eopVeaR4EGCcIwfeyS9SyI8hj9MHWv4CYpvF/QHOc0/Q==",
+          "content_md5": "44c7be48226ebad5dca8216674cad62b",
+          "content_sha1": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
+          "content_sha256": "0917b13a9091915d54b6336f45909539cce452b3661b21f386418a257883b30a",
+          "content_sha512": "feb6541d492a1d50394cc448e9c4d08ac381c5c90a656b19201bacfdf9462b87a8a5579a47810609c2307dec92f52c88f218fd3075afe02629bc5fd01ce734fd",
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "mod-basic/secret.txt",
+          "id": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
+          "sensitive_content": "REDACTED_SENSITIVE",
+          "source": null
+        },
+        "after": {
+          "content": "REDACTED_SENSITIVE",
+          "content_base64": null,
+          "content_base64sha256": "CRexOpCRkV1UtjNvRZCVOczkUrNmGyHzhkGKJXiDswo=",
+          "content_base64sha512": "/rZUHUkqHVA5TMRI6cTQisOBxckKZWsZIBus/flGK4eopVeaR4EGCcIwfeyS9SyI8hj9MHWv4CYpvF/QHOc0/Q==",
+          "content_md5": "44c7be48226ebad5dca8216674cad62b",
+          "content_sha1": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
+          "content_sha256": "0917b13a9091915d54b6336f45909539cce452b3661b21f386418a257883b30a",
+          "content_sha512": "feb6541d492a1d50394cc448e9c4d08ac381c5c90a656b19201bacfdf9462b87a8a5579a47810609c2307dec92f52c88f218fd3075afe02629bc5fd01ce734fd",
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "mod-basic/secret.txt",
+          "id": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
+          "sensitive_content": "REDACTED_SENSITIVE",
+          "source": null
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "content": true,
+          "sensitive_content": true
+        },
+        "after_sensitive": {
+          "content": true,
+          "sensitive_content": true
+        }
+      }
+    },
+    {
+      "address": "module.secret-file.module.other-files.local_file.non-secret-2",
+      "module_address": "module.secret-file.module.other-files",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "non-secret-2",
+      "provider_name": "registry.terraform.io/hashicorp/local",
+      "change": {
+        "actions": [
+          "no-op"
+        ],
+        "before": {
+          "content": "something HELLO",
+          "content_base64": null,
+          "content_base64sha256": "xaEGJndtkGf+98mCnoeBd2ZkTHMkbW77uM0K0kMTbz8=",
+          "content_base64sha512": "FJO7WHoOusaIIDgEBUn8ZsTuXdIcHpjVot9rxxXVdmZ2u0WxqYoBTSLm+uD9eqsNjMqjZrZCFe9ofgen6U9q4A==",
+          "content_md5": "0661a27a1a8bb8c103b7156705579419",
+          "content_sha1": "1d9441803d40363f23cd3d24af483919114b0b80",
+          "content_sha256": "c5a10626776d9067fef7c9829e87817766644c73246d6efbb8cd0ad243136f3f",
+          "content_sha512": "1493bb587a0ebac6882038040549fc66c4ee5dd21c1e98d5a2df6bc715d5766676bb45b1a98a014d22e6fae0fd7aab0d8ccaa366b64215ef687e07a7e94f6ae0",
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "mod-basic-2/plain.txt",
+          "id": "1d9441803d40363f23cd3d24af483919114b0b80",
+          "sensitive_content": "REDACTED_SENSITIVE",
+          "source": null
+        },
+        "after": {
+          "content": "something HELLO",
+          "content_base64": null,
+          "content_base64sha256": "xaEGJndtkGf+98mCnoeBd2ZkTHMkbW77uM0K0kMTbz8=",
+          "content_base64sha512": "FJO7WHoOusaIIDgEBUn8ZsTuXdIcHpjVot9rxxXVdmZ2u0WxqYoBTSLm+uD9eqsNjMqjZrZCFe9ofgen6U9q4A==",
+          "content_md5": "0661a27a1a8bb8c103b7156705579419",
+          "content_sha1": "1d9441803d40363f23cd3d24af483919114b0b80",
+          "content_sha256": "c5a10626776d9067fef7c9829e87817766644c73246d6efbb8cd0ad243136f3f",
+          "content_sha512": "1493bb587a0ebac6882038040549fc66c4ee5dd21c1e98d5a2df6bc715d5766676bb45b1a98a014d22e6fae0fd7aab0d8ccaa366b64215ef687e07a7e94f6ae0",
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "mod-basic-2/plain.txt",
+          "id": "1d9441803d40363f23cd3d24af483919114b0b80",
+          "sensitive_content": "REDACTED_SENSITIVE",
+          "source": null
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "sensitive_content": true
+        },
+        "after_sensitive": {
+          "sensitive_content": true
+        }
+      }
+    },
+    {
+      "address": "module.secret-file.module.other-files.local_file.secret-2",
+      "module_address": "module.secret-file.module.other-files",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "secret-2",
+      "provider_name": "registry.terraform.io/hashicorp/local",
+      "change": {
+        "actions": [
+          "delete",
+          "create"
+        ],
+        "before": {
+          "content": "REDACTED_SENSITIVE",
+          "content_base64": null,
+          "content_base64sha256": "5C5kGaGX8pKqF7Cew4VXXyDNGvLMugEe3qdJ95Ym8NM=",
+          "content_base64sha512": "g0NQm8VBX20P7NPD2qy5FSpuv8OTDcn3bpaRbd30qjZQRrEmkwh67lqGVkfS0d4cglhi9u1tn+Dy738vfOb2SA==",
+          "content_md5": "50bbbccd30152ed7ede5fed6a72d6528",
+          "content_sha1": "f32d425f8268736918a4c30226177b7e5610f304",
+          "content_sha256": "e42e6419a197f292aa17b09ec385575f20cd1af2ccba011edea749f79626f0d3",
+          "content_sha512": "8343509bc5415f6d0fecd3c3daacb9152a6ebfc3930dc9f76e96916dddf4aa365046b12693087aee5a865647d2d1de1c825862f6ed6d9fe0f2ef7f2f7ce6f648",
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "mod-basic-2/secret.txt",
+          "id": "f32d425f8268736918a4c30226177b7e5610f304",
+          "sensitive_content": "REDACTED_SENSITIVE",
+          "source": null
+        },
+        "after": {
+          "content": "REDACTED_SENSITIVE",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "mod-basic-2/secret.txt",
+          "sensitive_content": "REDACTED_SENSITIVE",
+          "source": null
+        },
+        "after_unknown": {
+          "content_base64sha256": true,
+          "content_base64sha512": true,
+          "content_md5": true,
+          "content_sha1": true,
+          "content_sha256": true,
+          "content_sha512": true,
+          "id": true
+        },
+        "before_sensitive": {
+          "content": true,
+          "sensitive_content": true
+        },
+        "after_sensitive": {
+          "content": true,
+          "sensitive_content": true
+        },
+        "replace_paths": [
+          [
+            "content"
+          ]
+        ]
       }
     }
   ],
@@ -427,6 +757,130 @@
                 "foo": "bar"
               }
             }
+          }
+        ],
+        "child_modules": [
+          {
+            "resources": [
+              {
+                "address": "module.secret-file.local_file.non-secret",
+                "mode": "managed",
+                "type": "local_file",
+                "name": "non-secret",
+                "provider_name": "registry.terraform.io/hashicorp/local",
+                "schema_version": 0,
+                "values": {
+                  "content": "HELLO",
+                  "content_base64": null,
+                  "content_base64sha256": "NzPNl3/46xi5hzV+Is7Zn0YJfzHssjnoeK5jdg6D5NU=",
+                  "content_base64sha512": "M98tzDHTXnvCVovr9dc6HkOg5iS2Ubpe8xV7v7coRGZ0ojG4tul/oeVww7HebWxndUGyYqwir9pYePorWRx/CA==",
+                  "content_md5": "eb61eead90e3b899c6bcbe27ac581660",
+                  "content_sha1": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
+                  "content_sha256": "3733cd977ff8eb18b987357e22ced99f46097f31ecb239e878ae63760e83e4d5",
+                  "content_sha512": "33df2dcc31d35e7bc2568bebf5d73a1e43a0e624b651ba5ef3157bbfb728446674a231b8b6e97fa1e570c3b1de6d6c677541b262ac22afda5878fa2b591c7f08",
+                  "directory_permission": "0777",
+                  "file_permission": "0777",
+                  "filename": "mod-basic/plain.txt",
+                  "id": "c65f99f8c5376adadddc46d5cbcf5762f9e55eb7",
+                  "sensitive_content": "REDACTED_SENSITIVE",
+                  "source": null
+                },
+                "sensitive_values": {
+                  "sensitive_content": true
+                }
+              },
+              {
+                "address": "module.secret-file.local_file.secret",
+                "mode": "managed",
+                "type": "local_file",
+                "name": "secret",
+                "provider_name": "registry.terraform.io/hashicorp/local",
+                "schema_version": 0,
+                "values": {
+                  "content": "REDACTED_SENSITIVE",
+                  "content_base64": null,
+                  "content_base64sha256": "CRexOpCRkV1UtjNvRZCVOczkUrNmGyHzhkGKJXiDswo=",
+                  "content_base64sha512": "/rZUHUkqHVA5TMRI6cTQisOBxckKZWsZIBus/flGK4eopVeaR4EGCcIwfeyS9SyI8hj9MHWv4CYpvF/QHOc0/Q==",
+                  "content_md5": "44c7be48226ebad5dca8216674cad62b",
+                  "content_sha1": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
+                  "content_sha256": "0917b13a9091915d54b6336f45909539cce452b3661b21f386418a257883b30a",
+                  "content_sha512": "feb6541d492a1d50394cc448e9c4d08ac381c5c90a656b19201bacfdf9462b87a8a5579a47810609c2307dec92f52c88f218fd3075afe02629bc5fd01ce734fd",
+                  "directory_permission": "0777",
+                  "file_permission": "0777",
+                  "filename": "mod-basic/secret.txt",
+                  "id": "3c3b274d119ff5a5ec6c1e215c1cb794d9973ac1",
+                  "sensitive_content": "REDACTED_SENSITIVE",
+                  "source": null
+                },
+                "sensitive_values": {
+                  "content": true,
+                  "sensitive_content": true
+                }
+              }
+            ],
+            "address": "module.secret-file",
+            "child_modules": [
+              {
+                "resources": [
+                  {
+                    "address": "module.secret-file.module.other-files.local_file.non-secret-2",
+                    "mode": "managed",
+                    "type": "local_file",
+                    "name": "non-secret-2",
+                    "provider_name": "registry.terraform.io/hashicorp/local",
+                    "schema_version": 0,
+                    "values": {
+                      "content": "something HELLO",
+                      "content_base64": null,
+                      "content_base64sha256": "xaEGJndtkGf+98mCnoeBd2ZkTHMkbW77uM0K0kMTbz8=",
+                      "content_base64sha512": "FJO7WHoOusaIIDgEBUn8ZsTuXdIcHpjVot9rxxXVdmZ2u0WxqYoBTSLm+uD9eqsNjMqjZrZCFe9ofgen6U9q4A==",
+                      "content_md5": "0661a27a1a8bb8c103b7156705579419",
+                      "content_sha1": "1d9441803d40363f23cd3d24af483919114b0b80",
+                      "content_sha256": "c5a10626776d9067fef7c9829e87817766644c73246d6efbb8cd0ad243136f3f",
+                      "content_sha512": "1493bb587a0ebac6882038040549fc66c4ee5dd21c1e98d5a2df6bc715d5766676bb45b1a98a014d22e6fae0fd7aab0d8ccaa366b64215ef687e07a7e94f6ae0",
+                      "directory_permission": "0777",
+                      "file_permission": "0777",
+                      "filename": "mod-basic-2/plain.txt",
+                      "id": "1d9441803d40363f23cd3d24af483919114b0b80",
+                      "sensitive_content": "REDACTED_SENSITIVE",
+                      "source": null
+                    },
+                    "sensitive_values": {
+                      "sensitive_content": true
+                    }
+                  },
+                  {
+                    "address": "module.secret-file.module.other-files.local_file.secret-2",
+                    "mode": "managed",
+                    "type": "local_file",
+                    "name": "secret-2",
+                    "provider_name": "registry.terraform.io/hashicorp/local",
+                    "schema_version": 0,
+                    "values": {
+                      "content": "REDACTED_SENSITIVE",
+                      "content_base64": null,
+                      "content_base64sha256": "5C5kGaGX8pKqF7Cew4VXXyDNGvLMugEe3qdJ95Ym8NM=",
+                      "content_base64sha512": "g0NQm8VBX20P7NPD2qy5FSpuv8OTDcn3bpaRbd30qjZQRrEmkwh67lqGVkfS0d4cglhi9u1tn+Dy738vfOb2SA==",
+                      "content_md5": "50bbbccd30152ed7ede5fed6a72d6528",
+                      "content_sha1": "f32d425f8268736918a4c30226177b7e5610f304",
+                      "content_sha256": "e42e6419a197f292aa17b09ec385575f20cd1af2ccba011edea749f79626f0d3",
+                      "content_sha512": "8343509bc5415f6d0fecd3c3daacb9152a6ebfc3930dc9f76e96916dddf4aa365046b12693087aee5a865647d2d1de1c825862f6ed6d9fe0f2ef7f2f7ce6f648",
+                      "directory_permission": "0777",
+                      "file_permission": "0777",
+                      "filename": "mod-basic-2/secret.txt",
+                      "id": "f32d425f8268736918a4c30226177b7e5610f304",
+                      "sensitive_content": "REDACTED_SENSITIVE",
+                      "source": null
+                    },
+                    "sensitive_values": {
+                      "content": true,
+                      "sensitive_content": true
+                    }
+                  }
+                ],
+                "address": "module.secret-file.module.other-files"
+              }
+            ]
           }
         ]
       }
@@ -655,6 +1109,142 @@
           "schema_version": 0
         }
       ],
+      "module_calls": {
+        "secret-file": {
+          "source": "./mod-basic",
+          "expressions": {
+            "content": {
+              "constant_value": "HELLO"
+            },
+            "secret_content": {
+              "constant_value": "REDACTED_SENSITIVE"
+            }
+          },
+          "module": {
+            "resources": [
+              {
+                "address": "local_file.non-secret",
+                "mode": "managed",
+                "type": "local_file",
+                "name": "non-secret",
+                "provider_config_key": "module.secret-file:local",
+                "expressions": {
+                  "content": {
+                    "references": [
+                      "var.content"
+                    ]
+                  },
+                  "filename": {
+                    "references": [
+                      "path.module"
+                    ]
+                  }
+                },
+                "schema_version": 0
+              },
+              {
+                "address": "local_file.secret",
+                "mode": "managed",
+                "type": "local_file",
+                "name": "secret",
+                "provider_config_key": "module.secret-file:local",
+                "expressions": {
+                  "content": {
+                    "references": [
+                      "var.secret_content"
+                    ]
+                  },
+                  "filename": {
+                    "references": [
+                      "path.module"
+                    ]
+                  }
+                },
+                "schema_version": 0
+              }
+            ],
+            "module_calls": {
+              "other-files": {
+                "source": "../mod-basic-2",
+                "expressions": {
+                  "content": {
+                    "references": [
+                      "var.content"
+                    ]
+                  },
+                  "secret_content": {
+                    "references": [
+                      "var.secret_content"
+                    ]
+                  }
+                },
+                "module": {
+                  "resources": [
+                    {
+                      "address": "local_file.non-secret-2",
+                      "mode": "managed",
+                      "type": "local_file",
+                      "name": "non-secret-2",
+                      "provider_config_key": "module.secret-file:local",
+                      "expressions": {
+                        "content": {
+                          "references": [
+                            "var.content"
+                          ]
+                        },
+                        "filename": {
+                          "references": [
+                            "path.module"
+                          ]
+                        }
+                      },
+                      "schema_version": 0
+                    },
+                    {
+                      "address": "local_file.secret-2",
+                      "mode": "managed",
+                      "type": "local_file",
+                      "name": "secret-2",
+                      "provider_config_key": "module.secret-file:local",
+                      "expressions": {
+                        "content": {
+                          "references": [
+                            "var.secret_content"
+                          ]
+                        },
+                        "filename": {
+                          "references": [
+                            "path.module"
+                          ]
+                        }
+                      },
+                      "schema_version": 0
+                    }
+                  ],
+                  "variables": {
+                    "content": {
+                      "default": "HI"
+                    },
+                    "secret_content": {
+                      "default": "REDACTED_SENSITIVE",
+                      "sensitive": true
+                    }
+                  }
+                }
+              }
+            },
+            "variables": {
+              "content": {
+                "default": "HI"
+              },
+              "secret_content": {
+                "default": "REDACTED_SENSITIVE",
+                "sensitive": true
+              }
+            }
+          }
+        }
+      },
       "variables": {
         "foo": {
           "default": "REDACTED_SENSITIVE",
