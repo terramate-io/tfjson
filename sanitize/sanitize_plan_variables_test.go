@@ -11,10 +11,11 @@ import (
 )
 
 type testVariablesCase struct {
-	name     string
-	old      map[string]*tfjson.PlanVariable
-	configs  map[string]*tfjson.ConfigVariable
-	expected map[string]*tfjson.PlanVariable
+	name            string
+	old             map[string]*tfjson.PlanVariable
+	configs         map[string]*tfjson.ConfigVariable
+	expected        map[string]*tfjson.PlanVariable
+	expectedConfigs map[string]*tfjson.ConfigVariable
 }
 
 func variablesCases() []testVariablesCase {
@@ -35,6 +36,7 @@ func variablesCases() []testVariablesCase {
 				},
 				"bar": &tfjson.ConfigVariable{
 					Sensitive: true,
+					Default:   DefaultSensitiveValue,
 				},
 			},
 			expected: map[string]*tfjson.PlanVariable{
@@ -43,6 +45,15 @@ func variablesCases() []testVariablesCase {
 				},
 				"bar": &tfjson.PlanVariable{
 					Value: DefaultSensitiveValue,
+				},
+			},
+			expectedConfigs: map[string]*tfjson.ConfigVariable{
+				"foo": &tfjson.ConfigVariable{
+					Sensitive: false,
+				},
+				"bar": &tfjson.ConfigVariable{
+					Sensitive: true,
+					Default:   DefaultSensitiveValue,
 				},
 			},
 		},
@@ -64,6 +75,10 @@ func TestSanitizePlanVariables(t *testing.T) {
 
 			if diff := cmp.Diff(variablesCases()[i].old, tc.old); diff != "" {
 				t.Errorf("SanitizePlanVariables() altered original (-expected +actual):\n%s", diff)
+			}
+
+			if diff := cmp.Diff(tc.expectedConfigs, tc.configs); diff != "" {
+				t.Errorf("SanitizePlanVariables() mismatch (-expected +actual):\n%s", diff)
 			}
 		})
 	}

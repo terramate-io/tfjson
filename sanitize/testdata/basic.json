@@ -5,6 +5,25 @@
     "foo": {
       "value": "bar"
     },
+    "obj": {
+      "value": {
+        "a": {
+          "b": "secret"
+        }
+      }
+    },
+    "list": {
+      "value": [
+        {
+          "a": {
+            "b": "secret"
+          }
+        }
+      ]
+    },
+    "toggle_nonsensitive": {
+      "value": true
+    },
     "toggle_sensitive": {
       "value": true
     }
@@ -449,6 +468,86 @@
     }
   },
   "configuration": {
+    "provider_config": {
+      "google": {
+        "name": "google",
+        "full_name": "registry.terraform.io/hashicorp/google",
+        "version_constraint": "4.68.0",
+        "expressions": {
+          "nested": [
+            {
+              "name": {
+                "constant_value": "val1"
+              }
+            },
+            {
+              "name": {
+                "constant_value": "val2"
+              }
+            }
+          ],
+          "nested2": [
+            {
+              "name": [
+                {
+                  "name2": {
+                    "constant_value": "val2"
+                  }
+                }
+              ]
+            },
+            {
+              "name": [
+                {
+                  "name2": [
+                    {
+                      "name3": {
+                        "constant_value": "val3"
+                      }
+                    },
+                    {
+                      "name4": {
+                        "constant_value": "val4"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "project": {
+            "constant_value": "terramate-gke-stg"
+          },
+          "region": {
+            "constant_value": "europe-west1"
+          }
+        }
+      },
+      "kubernetes": {
+        "name": "kubernetes",
+        "full_name": "registry.terraform.io/hashicorp/kubernetes",
+        "version_constraint": "2.16.0",
+        "expressions": {
+          "cluster_ca_certificate": {
+            "references": [
+              "data.google_container_cluster.cluster.master_auth[0].cluster_ca_certificate",
+              "data.google_container_cluster.cluster.master_auth[0]",
+              "data.google_container_cluster.cluster.master_auth",
+              "data.google_container_cluster.cluster"
+            ]
+          },
+          "host": {
+            "references": [
+              "data.google_container_cluster.cluster.endpoint",
+              "data.google_container_cluster.cluster"
+            ]
+          },
+          "token": {
+            "constant_value": "my-secret"
+          }
+        }
+      }
+    },
     "root_module": {
       "outputs": {
         "secret": {
@@ -458,6 +557,59 @@
               "null_resource.foo"
             ]
           }
+        },
+        "secret-const": {
+          "sensitive": true,
+          "expression": {
+            "constant_value": "secret"
+          }
+        },
+        "nested": {
+          "sensitive": true,
+          "expression": [
+            {
+              "name": {
+                "constant_value": "val1"
+              }
+            },
+            {
+              "name": {
+                "constant_value": "val2"
+              }
+            }
+          ]
+        },
+        "nested2": {
+          "sensitive": true,
+          "expression": [
+            {
+              "name": [
+                {
+                  "name2": {
+                    "constant_value": "val2"
+                  }
+                }
+              ]
+            },
+            {
+              "name": [
+                {
+                  "name2": [
+                    {
+                      "name3": {
+                        "constant_value": "val3"
+                      }
+                    },
+                    {
+                      "name4": {
+                        "constant_value": "val4"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       },
       "resources": [
@@ -519,7 +671,28 @@
           "default": "bar",
           "sensitive": true
         },
-        "toggle_sensitive": {}
+        "obj": {
+          "default": {
+            "a": {
+              "b": "secret"
+            }
+          },
+          "sensitive": true
+        },
+        "list": {
+          "default": [
+            {
+              "a": {
+                "b": "secret"
+              }
+            }
+          ],
+          "sensitive": true
+        },
+        "toggle_nonsensitive": {},
+        "toggle_sensitive": {
+          "sensitive": true
+        }
       }
     }
   }

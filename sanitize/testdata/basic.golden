@@ -5,8 +5,17 @@
     "foo": {
       "value": "REDACTED_SENSITIVE"
     },
-    "toggle_sensitive": {
+    "list": {
+      "value": "REDACTED_SENSITIVE"
+    },
+    "obj": {
+      "value": "REDACTED_SENSITIVE"
+    },
+    "toggle_nonsensitive": {
       "value": true
+    },
+    "toggle_sensitive": {
+      "value": "REDACTED_SENSITIVE"
     }
   },
   "planned_values": {
@@ -424,14 +433,147 @@
     }
   },
   "configuration": {
+    "provider_config": {
+      "google": {
+        "name": "google",
+        "full_name": "registry.terraform.io/hashicorp/google",
+        "expressions": {
+          "nested": [
+            {
+              "name": {
+                "constant_value": "REDACTED_SENSITIVE"
+              }
+            },
+            {
+              "name": {
+                "constant_value": "REDACTED_SENSITIVE"
+              }
+            }
+          ],
+          "nested2": [
+            {
+              "name": [
+                {
+                  "name2": {
+                    "constant_value": "REDACTED_SENSITIVE"
+                  }
+                }
+              ]
+            },
+            {
+              "name": [
+                {
+                  "name2": [
+                    {
+                      "name3": {
+                        "constant_value": "REDACTED_SENSITIVE"
+                      }
+                    },
+                    {
+                      "name4": {
+                        "constant_value": "REDACTED_SENSITIVE"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "project": {
+            "constant_value": "REDACTED_SENSITIVE"
+          },
+          "region": {
+            "constant_value": "REDACTED_SENSITIVE"
+          }
+        },
+        "version_constraint": "4.68.0"
+      },
+      "kubernetes": {
+        "name": "kubernetes",
+        "full_name": "registry.terraform.io/hashicorp/kubernetes",
+        "expressions": {
+          "cluster_ca_certificate": {
+            "references": [
+              "data.google_container_cluster.cluster.master_auth[0].cluster_ca_certificate",
+              "data.google_container_cluster.cluster.master_auth[0]",
+              "data.google_container_cluster.cluster.master_auth",
+              "data.google_container_cluster.cluster"
+            ]
+          },
+          "host": {
+            "references": [
+              "data.google_container_cluster.cluster.endpoint",
+              "data.google_container_cluster.cluster"
+            ]
+          },
+          "token": {
+            "constant_value": "REDACTED_SENSITIVE"
+          }
+        },
+        "version_constraint": "2.16.0"
+      }
+    },
     "root_module": {
       "outputs": {
+        "nested": {
+          "sensitive": true,
+          "expression": [
+            {
+              "name": {
+                "constant_value": "REDACTED_SENSITIVE"
+              }
+            },
+            {
+              "name": {
+                "constant_value": "REDACTED_SENSITIVE"
+              }
+            }
+          ]
+        },
+        "nested2": {
+          "sensitive": true,
+          "expression": [
+            {
+              "name": [
+                {
+                  "name2": {
+                    "constant_value": "REDACTED_SENSITIVE"
+                  }
+                }
+              ]
+            },
+            {
+              "name": [
+                {
+                  "name2": [
+                    {
+                      "name3": {
+                        "constant_value": "REDACTED_SENSITIVE"
+                      }
+                    },
+                    {
+                      "name4": {
+                        "constant_value": "REDACTED_SENSITIVE"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
         "secret": {
           "sensitive": true,
           "expression": {
             "references": [
               "null_resource.foo"
             ]
+          }
+        },
+        "secret-const": {
+          "sensitive": true,
+          "expression": {
+            "constant_value": "REDACTED_SENSITIVE"
           }
         }
       },
@@ -491,10 +633,21 @@
       ],
       "variables": {
         "foo": {
-          "default": "bar",
+          "default": "REDACTED_SENSITIVE",
           "sensitive": true
         },
-        "toggle_sensitive": {}
+        "list": {
+          "default": "REDACTED_SENSITIVE",
+          "sensitive": true
+        },
+        "obj": {
+          "default": "REDACTED_SENSITIVE",
+          "sensitive": true
+        },
+        "toggle_nonsensitive": {},
+        "toggle_sensitive": {
+          "sensitive": true
+        }
       }
     }
   }
