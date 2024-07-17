@@ -125,6 +125,12 @@ func SanitizePlanWithValue(old *tfjson.Plan, replaceWith interface{}) (*tfjson.P
 		return nil, err
 	}
 
+	// Sanitize RootModule resource provisioners
+	result.Config.RootModule.Resources, err = SanitizeModuleResourceProvisioners(result.Config.RootModule.Resources, replaceWith)
+	if err != nil {
+		return nil, err
+	}
+
 	// Sanitize RootModule outputs
 	result.Config.RootModule.Outputs, err = SanitizeConfigOutputs(result.Config.RootModule.Outputs, replaceWith)
 	if err != nil {

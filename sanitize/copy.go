@@ -105,3 +105,12 @@ func copyConfigVariable(old *tfjson.ConfigVariable) (*tfjson.ConfigVariable, err
 
 	return c.(*tfjson.ConfigVariable), nil
 }
+
+// copyConfigResource copies a ConfigResource value and returns a pointer to the copy.
+func copyConfigResource(old *tfjson.ConfigResource) (*tfjson.ConfigResource, error) {
+	c, err := copyStructureCopy(old)
+	if err != nil {
+		return nil, err
+	}
+	return c.(*tfjson.ConfigResource), nil
+}

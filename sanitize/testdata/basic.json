@@ -664,6 +664,33 @@
             }
           },
           "schema_version": 0
+        },
+        {
+          "address": "null_resource.foo",
+          "mode": "managed",
+          "type": "null_resource",
+          "name": "foo",
+          "provider_config_key": "null",
+          "expressions": {
+            "triggers": {}
+          },
+          "schema_version": 0,
+          "provisioners": [
+            {
+              "type": "local-exec",
+              "expressions": {
+                "command": {
+                  "constant_value": "echo $SECRET_ENV $BAR"
+                },
+                "environment": {
+                  "constant_value": {
+                    "SECRET_ENV": "secret",
+                    "FOO": "BAR"
+                  }
+                }
+              }
+            }
+          ]
         }
       ],
       "variables": {
