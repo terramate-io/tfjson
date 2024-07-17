@@ -29,6 +29,10 @@ func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
 		return nil
 	}
 
+	if shouldFilter, ok := sensitive.(bool); ok && shouldFilter {
+		return replaceWith
+	}
+
 	// Only expect deep types that we would normally see in JSON, so
 	// arrays and objects.
 	switch x := old.(type) {
@@ -43,17 +47,15 @@ func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
 			}
 		}
 	case map[string]interface{}:
-		if filterMap, ok := sensitive.(map[string]interface{}); ok {
-			for filterKey := range filterMap {
-				if value, ok := x[filterKey]; ok {
-					x[filterKey] = sanitizeChangeValue(value, filterMap[filterKey], replaceWith)
-				}
+		filterMap, ok := sensitive.(map[string]interface{})
+		if !ok {
+			break
+		}
+		for filterKey := range filterMap {
+			if value, ok := x[filterKey]; ok {
+				x[filterKey] = sanitizeChangeValue(value, filterMap[filterKey], replaceWith)
 			}
 		}
-	}
-
-	if shouldFilter, ok := sensitive.(bool); ok && shouldFilter {
-		return replaceWith
 	}
 
 	return old
