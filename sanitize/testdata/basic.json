@@ -244,6 +244,149 @@
       "root_module": {
         "resources": [
           {
+            "address": "data.secret_data_source.current",
+            "mode": "data",
+            "type": "secret_data_source",
+            "name": "current",
+            "values": {
+              "id": "secret",
+              "access_token": "123"
+            },
+            "provider_name": "secret",
+            "schema_version": 0,
+            "sensitive_values": {
+              "access_token": true
+            }
+          },
+          {
+            "address": "data.secret_data_source.object",
+            "mode": "data",
+            "type": "secret_data_source",
+            "name": "object",
+            "values": {
+              "id": "secret",
+              "object": {
+                "a": {
+                  "a": 1,
+                  "b": 2
+                },
+                "b": {
+                  "a": 1,
+                  "b": 2
+                }
+              }
+            },
+            "provider_name": "secret",
+            "schema_version": 0,
+            "sensitive_values": {
+              "object": true
+            }
+          },
+          {
+            "address": "data.secret_data_source.list",
+            "mode": "data",
+            "type": "secret_data_source",
+            "name": "list",
+            "provider_name": "my_secret",
+            "schema_version": 0,
+            "values": {
+              "id": "my_secret",
+              "list": [
+                "pass1",
+                "pass2",
+                "pass3"
+              ]
+            },
+            "sensitive_values": {
+              "list": true
+            }
+          },
+          {
+            "address": "data.secret_data_source.boolean",
+            "mode": "data",
+            "type": "secret_data_source",
+            "name": "boolean",
+            "provider_name": "my_secret",
+            "schema_version": 0,
+            "values": {
+              "id": "my_secret",
+              "boolean": true
+            },
+            "sensitive_values": {
+              "boolean": true
+            }
+          },
+          {
+            "address": "data.secret_data_source.nested",
+            "mode": "data",
+            "type": "secret_data_source",
+            "name": "nested",
+            "provider_name": "my_secret",
+            "schema_version": 0,
+            "values": {
+              "nested": {
+                "some": "value"
+              }
+            },
+            "sensitive_values": {
+              "nested": {
+                "some": true
+              }
+            }
+          },
+          {
+            "address": "data.secret_data_source.nested_list",
+            "mode": "data",
+            "type": "secret_data_source",
+            "name": "nested_list",
+            "provider_name": "my_secret",
+            "schema_version": 0,
+            "values": {
+              "nested_list": [
+                "not secret",
+                "secret",
+                "not secret"
+              ]
+            },
+            "sensitive_values": {
+              "nested_list": [
+                false,
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "address": "data.secret_data_source.nested_list2",
+            "mode": "data",
+            "type": "secret_data_source",
+            "name": "nested_list",
+            "provider_name": "my_secret",
+            "schema_version": 0,
+            "values": {
+              "nested_list2": [
+                {
+                  "some": "not secret"
+                },
+                {
+                  "some": "secret"
+                },
+                "not secret"
+              ]
+            },
+            "sensitive_values": {
+              "nested_list2": [
+                {
+                  "some": false
+                },
+                {
+                  "some": true
+                },
+                false
+              ]
+            }
+          },
+          {
             "address": "null_resource.bar",
             "mode": "managed",
             "type": "null_resource",
