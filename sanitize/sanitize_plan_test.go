@@ -11,6 +11,7 @@ import (
 	"testing"
 
 	"github.com/sebdah/goldie/v2"
+
 	"github.com/terramate-io/tfjson"
 )
 
@@ -41,7 +42,9 @@ func testSanitizePlanGoldenEntry(c testGoldenCase) func(t *testing.T) {
 		}
 
 		g := goldie.New(t)
-		g.WithFixtureDir(testDataDir)
+		if err = g.WithFixtureDir(testDataDir); err != nil {
+			t.Fatal(err)
+		}
 		g.AssertJson(t, c.Name(), p)
 	}
 }
@@ -84,4 +87,28 @@ func goldenCases() ([]testGoldenCase, error) {
 	}
 
 	return result, err
+}
+
+func BenchmarkLargeChangeset(b *testing.B) {
+	b.StopTimer()
+	data, err := os.ReadFile(filepath.Join(testDataDir, "basic.json"))
+	if err != nil {
+		b.Fatal(err)
+	}
+	p := new(tfjson.Plan)
+	err = json.Unmarshal(data, p)
+	if err != nil {
+		b.Fatal(err)
+	}
+	b.StartTimer()
+
+	for i := 0; i < b.N; i++ {
+		p, err = SanitizePlan(p)
+		if err != nil {
+			b.Fatal(err)
+		}
+		if p == nil {
+			b.Fatal(err)
+		}
+	}
 }
