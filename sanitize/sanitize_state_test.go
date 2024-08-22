@@ -23,6 +23,13 @@ type testStateCase struct {
 func stateCases() []testStateCase {
 	return []testStateCase{
 		{
+			name:            "nil",
+			old:             nil,
+			resourceChanges: nil,
+			mode:            "",
+			expected:        nil,
+		},
+		{
 			name: "before",
 			old: &tfjson.StateModule{
 				Resources: []*tfjson.StateResource{
@@ -211,6 +218,15 @@ type testOutputCase struct {
 
 func outputCases() []testOutputCase {
 	return []testOutputCase{
+		{
+			name: "nil values",
+			old: map[string]*tfjson.StateOutput{
+				"foo": nil,
+			},
+			expected: map[string]*tfjson.StateOutput{
+				"foo": nil,
+			},
+		},
 		{
 			name: "basic",
 			old: map[string]*tfjson.StateOutput{

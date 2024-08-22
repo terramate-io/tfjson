@@ -22,37 +22,56 @@ type testVariablesCase struct {
 func variablesCases() []testVariablesCase {
 	return []testVariablesCase{
 		{
+			name: "nil value",
+			old: map[string]*tfjson.PlanVariable{
+				"foo": nil,
+			},
+			configs: map[string]*tfjson.ConfigVariable{
+				"foo": {
+					Sensitive: true,
+				},
+			},
+			expected: map[string]*tfjson.PlanVariable{
+				"foo": nil,
+			},
+			expectedConfigs: map[string]*tfjson.ConfigVariable{
+				"foo": {
+					Sensitive: true,
+				},
+			},
+		},
+		{
 			name: "basic",
 			old: map[string]*tfjson.PlanVariable{
-				"foo": &tfjson.PlanVariable{
+				"foo": {
 					Value: "test-foo",
 				},
-				"bar": &tfjson.PlanVariable{
+				"bar": {
 					Value: "test-bar",
 				},
 			},
 			configs: map[string]*tfjson.ConfigVariable{
-				"foo": &tfjson.ConfigVariable{
+				"foo": {
 					Sensitive: false,
 				},
-				"bar": &tfjson.ConfigVariable{
+				"bar": {
 					Sensitive: true,
 					Default:   DefaultSensitiveValue,
 				},
 			},
 			expected: map[string]*tfjson.PlanVariable{
-				"foo": &tfjson.PlanVariable{
+				"foo": {
 					Value: "test-foo",
 				},
-				"bar": &tfjson.PlanVariable{
+				"bar": {
 					Value: DefaultSensitiveValue,
 				},
 			},
 			expectedConfigs: map[string]*tfjson.ConfigVariable{
-				"foo": &tfjson.ConfigVariable{
+				"foo": {
 					Sensitive: false,
 				},
-				"bar": &tfjson.ConfigVariable{
+				"bar": {
 					Sensitive: true,
 					Default:   DefaultSensitiveValue,
 				},

@@ -26,7 +26,11 @@ func sanitizeVariable(
 	config *tfjson.ConfigVariable,
 	replaceWith interface{},
 ) {
-	if config != nil && config.Sensitive {
+	if result == nil || config == nil {
+		return
+	}
+
+	if config.Sensitive {
 		result.Value = replaceWith
 	}
 }

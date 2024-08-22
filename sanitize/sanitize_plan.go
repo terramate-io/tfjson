@@ -54,29 +54,28 @@ func SanitizePlanWithValue(result *tfjson.Plan, replaceWith interface{}) error {
 	}
 
 	// Sanitize ResourceChanges
-	for i := range result.ResourceChanges {
-		SanitizeChange(result.ResourceChanges[i].Change, replaceWith)
+	for _, v := range result.ResourceChanges {
+		SanitizeChange(v.Change, replaceWith)
 	}
 
 	// Sanitize ResourceDrifts
-	for i := range result.ResourceDrift {
-		SanitizeChange(result.ResourceDrift[i].Change, replaceWith)
+	for _, v := range result.ResourceDrift {
+		SanitizeChange(v.Change, replaceWith)
 	}
 
-	// Sanitize Variables
-	SanitizePlanVariables(result.Variables, result.Config.RootModule.Variables, replaceWith)
-
 	// Sanitize PlannedValues
-	SanitizeStateModule(
-		result.PlannedValues.RootModule,
-		result.ResourceChanges,
-		SanitizeStateModuleChangeModeAfter,
-		replaceWith)
+	if result.PlannedValues != nil {
+		SanitizeStateModule(
+			result.PlannedValues.RootModule,
+			result.ResourceChanges,
+			SanitizeStateModuleChangeModeAfter,
+			replaceWith)
 
-	SanitizeStateOutputs(result.PlannedValues.Outputs, replaceWith)
+		SanitizeStateOutputs(result.PlannedValues.Outputs, replaceWith)
+	}
 
 	// Sanitize PriorState
-	if result.PriorState != nil {
+	if result.PriorState != nil && result.PriorState.Values != nil {
 		SanitizeStateModule(
 			result.PriorState.Values.RootModule,
 			result.ResourceChanges,
@@ -91,13 +90,17 @@ func SanitizePlanWithValue(result *tfjson.Plan, replaceWith interface{}) error {
 		SanitizeChange(v, replaceWith)
 	}
 
-	// Sanitize ProviderConfigs
-	SanitizeProviderConfigs(result.Config.ProviderConfigs, replaceWith)
+	if result.Config != nil {
+		// Sanitize ProviderConfigs
+		SanitizeProviderConfigs(result.Config.ProviderConfigs, replaceWith)
 
-	// Sanitize RootModule recursively into module calls and child_modules
-	sanitizeModuleConfig(result.Config.RootModule, replaceWith)
+		if result.Config.RootModule != nil {
+			// Sanitize RootModule recursively into module calls and child_modules
+			sanitizeModuleConfig(result.Config.RootModule, replaceWith)
 
-	// Sanitize RootModule outputs
-	SanitizeConfigOutputs(result.Config.RootModule.Outputs, replaceWith)
+			// Sanitize Variables
+			SanitizePlanVariables(result.Variables, result.Config.RootModule.Variables, replaceWith)
+		}
+	}
 	return nil
 }

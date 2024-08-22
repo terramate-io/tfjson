@@ -11,6 +11,9 @@ import (
 // the particular locations marked by BeforeSensitive AfterSensitive
 // with the value supplied as replaceWith.
 func SanitizeChange(result *tfjson.Change, replaceWith interface{}) {
+	if result == nil {
+		return
+	}
 	result.Before = sanitizeChangeValue(result.Before, result.BeforeSensitive, replaceWith)
 	result.After = sanitizeChangeValue(result.After, result.AfterSensitive, replaceWith)
 }

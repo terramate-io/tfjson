@@ -5,6 +5,7 @@ package sanitize
 
 import (
 	"encoding/json"
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -16,6 +17,23 @@ import (
 )
 
 const testDataDir = "testdata"
+
+func TestSanitizePlanEmpty(t *testing.T) {
+	t.Run("nil", func(t *testing.T) {
+		err := SanitizePlan(nil)
+		if !errors.Is(err, NilPlanError) {
+			t.Error("expected NilPlanError")
+		}
+	})
+
+	t.Run("empty", func(t *testing.T) {
+		plan := tfjson.Plan{}
+		err := SanitizePlan(&plan)
+		if err != nil {
+			t.Error(err)
+		}
+	})
+}
 
 func TestSanitizePlanGolden(t *testing.T) {
 	cases, err := goldenCases()

@@ -34,6 +34,10 @@ func SanitizeStateModule(
 	mode SanitizeStateModuleChangeMode,
 	replaceWith interface{},
 ) {
+	if result == nil {
+		return
+	}
+
 	for _, v := range result.Resources {
 		sanitizeStateResource(
 			v,
@@ -59,6 +63,10 @@ func sanitizeStateResource(
 	mode SanitizeStateModuleChangeMode,
 	replaceWith interface{},
 ) {
+	if result == nil {
+		return
+	}
+
 	var sensitive interface{}
 	if rc == nil {
 		sensitive = result.SensitiveValues
@@ -80,7 +88,7 @@ func sanitizeStateResource(
 func findResourceChange(resourceChanges []*tfjson.ResourceChange, addr string) *tfjson.ResourceChange {
 	// Linear search here, unfortunately :P
 	for _, rc := range resourceChanges {
-		if rc.Address == addr {
+		if rc != nil && rc.Address == addr {
 			return rc
 		}
 	}
@@ -93,7 +101,7 @@ func findResourceChange(resourceChanges []*tfjson.ResourceChange, addr string) *
 // supplied in replaceWith.
 func SanitizeStateOutputs(result map[string]*tfjson.StateOutput, replaceWith interface{}) {
 	for _, v := range result {
-		if v.Sensitive {
+		if v != nil && v.Sensitive {
 			v.Value = replaceWith
 		}
 	}

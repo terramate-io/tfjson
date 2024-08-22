@@ -11,6 +11,10 @@ func SanitizeProviderConfigs(result map[string]*tfjson.ProviderConfig, replaceWi
 
 // SanitizeProviderConfig sanitises the constant_value from expressions of the provider_config to the value set in replaceWith parameter.
 func SanitizeProviderConfig(result *tfjson.ProviderConfig, replaceWith interface{}) {
+	if result == nil {
+		return
+	}
+
 	for _, expression := range result.Expressions {
 		sanitizeExpression(expression, replaceWith)
 	}
@@ -19,7 +23,7 @@ func SanitizeProviderConfig(result *tfjson.ProviderConfig, replaceWith interface
 // SanitizeConfigOutputs sanitises the constant_value from the expression of the outputs.
 func SanitizeConfigOutputs(outputs map[string]*tfjson.ConfigOutput, replaceWith interface{}) {
 	for _, output := range outputs {
-		if output.Sensitive {
+		if output != nil && output.Sensitive {
 			sanitizeExpression(output.Expression, replaceWith)
 		}
 	}
@@ -28,13 +32,17 @@ func SanitizeConfigOutputs(outputs map[string]*tfjson.ConfigOutput, replaceWith 
 // SanitizeConfigVariables sanitizes the variables config.
 func SanitizeConfigVariables(result map[string]*tfjson.ConfigVariable, replaceWith interface{}) {
 	for _, v := range result {
-		if v.Sensitive && v.Default != nil {
+		if v != nil && v.Sensitive && v.Default != nil {
 			v.Default = replaceWith
 		}
 	}
 }
 
 func sanitizeModuleConfig(module *tfjson.ConfigModule, replaceWith interface{}) {
+	if module == nil {
+		return
+	}
+
 	SanitizeConfigVariables(module.Variables, replaceWith)
 
 	for _, res := range module.Resources {
@@ -42,24 +50,35 @@ func sanitizeModuleConfig(module *tfjson.ConfigModule, replaceWith interface{}) 
 	}
 
 	for _, mod := range module.ModuleCalls {
+		if mod == nil || mod.Module == nil {
+			continue
+		}
 		for name, expr := range mod.Expressions {
+			if expr == nil {
+				continue
+			}
 			if mod.Module.Variables == nil {
 				// NOTE(i4k): this should never happen because a module always define all its input.
 				// but in case we are dealing with a pre-processed JSON, this ensures
 				// we don't leak variables missing definitions.
 				sanitizeExpression(expr, replaceWith)
-			}
-			if varConfig, ok := mod.Module.Variables[name]; ok && varConfig.Sensitive {
+			} else if varConfig, ok := mod.Module.Variables[name]; ok && varConfig.Sensitive {
 				sanitizeExpression(expr, replaceWith)
 			}
 		}
 
 		sanitizeModuleConfig(mod.Module, replaceWith)
 	}
+
+	// Sanitize outputs
+	SanitizeConfigOutputs(module.Outputs, replaceWith)
 }
 
 func sanitizeResourceConfig(r *tfjson.ConfigResource, replaceWith interface{}) {
 	for _, prov := range r.Provisioners {
+		if prov == nil {
+			continue
+		}
 		for _, expr := range prov.Expressions {
 			sanitizeExpression(expr, replaceWith)
 		}

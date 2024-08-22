@@ -20,6 +20,11 @@ type testChangeCase struct {
 func changeCases() []testChangeCase {
 	return []testChangeCase{
 		{
+			name:     "nil",
+			old:      nil,
+			expected: nil,
+		},
+		{
 			name: "basic",
 			old: &tfjson.Change{
 				Before: map[string]interface{}{
