@@ -28,14 +28,16 @@ func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
 	// arrays and objects.
 	switch values := old.(type) {
 	case []interface{}:
-		if filterSlice, ok := sensitive.([]interface{}); ok {
-			for i := range filterSlice {
-				if i >= len(values) {
-					break
-				}
-
-				values[i] = sanitizeChangeValue(values[i], filterSlice[i], replaceWith)
+		filterSlice, ok := sensitive.([]interface{})
+		if !ok {
+			break
+		}
+		for i := range filterSlice {
+			if i >= len(values) {
+				break
 			}
+
+			values[i] = sanitizeChangeValue(values[i], filterSlice[i], replaceWith)
 		}
 	case map[string]interface{}:
 		filterMap, ok := sensitive.(map[string]interface{})
