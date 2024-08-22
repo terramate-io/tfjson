@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+
 	"github.com/terramate-io/tfjson"
 )
 
@@ -61,20 +62,14 @@ func variablesCases() []testVariablesCase {
 }
 
 func TestSanitizePlanVariables(t *testing.T) {
-	for i, tc := range variablesCases() {
+	for _, tc := range variablesCases() {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
-			actual, err := SanitizePlanVariables(tc.old, tc.configs, DefaultSensitiveValue)
-			if err != nil {
-				t.Fatal(err)
-			}
+			actual := tc.old
+			SanitizePlanVariables(actual, tc.configs, DefaultSensitiveValue)
 
 			if diff := cmp.Diff(tc.expected, actual); diff != "" {
 				t.Errorf("SanitizePlanVariables() mismatch (-expected +actual):\n%s", diff)
-			}
-
-			if diff := cmp.Diff(variablesCases()[i].old, tc.old); diff != "" {
-				t.Errorf("SanitizePlanVariables() altered original (-expected +actual):\n%s", diff)
 			}
 
 			if diff := cmp.Diff(tc.expectedConfigs, tc.configs); diff != "" {

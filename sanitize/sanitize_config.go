@@ -3,68 +3,39 @@ package sanitize
 import "github.com/terramate-io/tfjson"
 
 // SanitizeProviderConfigs sanitises the constant_value from expressions of the provider_configs to the value set in replaceWith parameter.
-func SanitizeProviderConfigs(configs map[string]*tfjson.ProviderConfig, replaceWith interface{}) (map[string]*tfjson.ProviderConfig, error) {
-	result := make(map[string]*tfjson.ProviderConfig, len(configs))
-	for k, v := range configs {
-		cfg, err := SanitizeProviderConfig(v, replaceWith)
-		if err != nil {
-			return nil, err
-		}
-		result[k] = cfg
+func SanitizeProviderConfigs(result map[string]*tfjson.ProviderConfig, replaceWith interface{}) {
+	for _, v := range result {
+		SanitizeProviderConfig(v, replaceWith)
 	}
-	return result, nil
 }
 
 // SanitizeProviderConfig sanitises the constant_value from expressions of the provider_config to the value set in replaceWith parameter.
-func SanitizeProviderConfig(old *tfjson.ProviderConfig, replaceWith interface{}) (*tfjson.ProviderConfig, error) {
-	result, err := copyProviderConfig(old)
-	if err != nil {
-		return nil, err
-	}
+func SanitizeProviderConfig(result *tfjson.ProviderConfig, replaceWith interface{}) {
 	for _, expression := range result.Expressions {
 		sanitizeExpression(expression, replaceWith)
 	}
-	return result, nil
 }
 
 // SanitizeConfigOutputs sanitises the constant_value from the expression of the outputs.
-func SanitizeConfigOutputs(old map[string]*tfjson.ConfigOutput, replaceWith interface{}) (map[string]*tfjson.ConfigOutput, error) {
-	outputs := make(map[string]*tfjson.ConfigOutput, len(old))
-	for name, output := range old {
-		output, err := copyConfigOutput(output)
-		if err != nil {
-			return nil, err
-		}
+func SanitizeConfigOutputs(outputs map[string]*tfjson.ConfigOutput, replaceWith interface{}) {
+	for _, output := range outputs {
 		if output.Sensitive {
 			sanitizeExpression(output.Expression, replaceWith)
 		}
-		outputs[name] = output
 	}
-	return outputs, nil
 }
 
 // SanitizeConfigVariables sanitizes the variables config.
-func SanitizeConfigVariables(old map[string]*tfjson.ConfigVariable, replaceWith interface{}) (map[string]*tfjson.ConfigVariable, error) {
-	variables := make(map[string]*tfjson.ConfigVariable, len(old))
-	for name, variable := range old {
-		v, err := copyConfigVariable(variable)
-		if err != nil {
-			return nil, err
-		}
+func SanitizeConfigVariables(result map[string]*tfjson.ConfigVariable, replaceWith interface{}) {
+	for _, v := range result {
 		if v.Sensitive && v.Default != nil {
 			v.Default = replaceWith
 		}
-		variables[name] = v
 	}
-	return variables, nil
 }
 
-func sanitizeModuleConfig(module *tfjson.ConfigModule, replaceWith interface{}) error {
-	var err error
-	module.Variables, err = SanitizeConfigVariables(module.Variables, replaceWith)
-	if err != nil {
-		return err
-	}
+func sanitizeModuleConfig(module *tfjson.ConfigModule, replaceWith interface{}) {
+	SanitizeConfigVariables(module.Variables, replaceWith)
 
 	for _, res := range module.Resources {
 		sanitizeResourceConfig(res, replaceWith)
@@ -85,8 +56,6 @@ func sanitizeModuleConfig(module *tfjson.ConfigModule, replaceWith interface{}) 
 
 		sanitizeModuleConfig(mod.Module, replaceWith)
 	}
-
-	return nil
 }
 
 func sanitizeResourceConfig(r *tfjson.ConfigResource, replaceWith interface{}) {

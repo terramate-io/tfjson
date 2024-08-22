@@ -10,18 +10,9 @@ import (
 // SanitizeChange traverses a Change and replaces all values at
 // the particular locations marked by BeforeSensitive AfterSensitive
 // with the value supplied as replaceWith.
-//
-// A new change is issued.
-func SanitizeChange(old *tfjson.Change, replaceWith interface{}) (*tfjson.Change, error) {
-	result, err := copyChange(old)
-	if err != nil {
-		return nil, err
-	}
-
+func SanitizeChange(result *tfjson.Change, replaceWith interface{}) {
 	result.Before = sanitizeChangeValue(result.Before, result.BeforeSensitive, replaceWith)
 	result.After = sanitizeChangeValue(result.After, result.AfterSensitive, replaceWith)
-
-	return result, nil
 }
 
 func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {

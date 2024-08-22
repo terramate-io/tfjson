@@ -36,7 +36,7 @@ func testSanitizePlanGoldenEntry(c testGoldenCase) func(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		p, err = SanitizePlan(p)
+		err = SanitizePlan(p)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -103,7 +103,7 @@ func BenchmarkLargeChangeset(b *testing.B) {
 	b.StartTimer()
 
 	for i := 0; i < b.N; i++ {
-		p, err = SanitizePlan(p)
+		err = SanitizePlan(p)
 		if err != nil {
 			b.Fatal(err)
 		}

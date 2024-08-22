@@ -18,8 +18,8 @@ var NilPlanError = errors.New("nil plan supplied")
 //
 // See SanitizePlanWithValue for full detail on the where replacement
 // takes place.
-func SanitizePlan(old *tfjson.Plan) (*tfjson.Plan, error) {
-	return SanitizePlanWithValue(old, DefaultSensitiveValue)
+func SanitizePlan(result *tfjson.Plan) error {
+	return SanitizePlanWithValue(result, DefaultSensitiveValue)
 }
 
 // SanitizePlanWithValue sanitizes the entirety of a Plan to the best
@@ -47,96 +47,57 @@ func SanitizePlan(old *tfjson.Plan) (*tfjson.Plan, error) {
 // the BeforeSensitive and AfterSensitive in outputs are opaquely the
 // same.
 //
-// Sensitive values are replaced with the value supplied with
-// replaceWith. A copy of the Plan is returned.
-func SanitizePlanWithValue(old *tfjson.Plan, replaceWith interface{}) (*tfjson.Plan, error) {
-	if old == nil {
-		return nil, NilPlanError
-	}
-
-	result, err := copyPlan(old)
-	if err != nil {
-		return nil, err
+// Sensitive values are replaced with the value supplied with replaceWith.
+func SanitizePlanWithValue(result *tfjson.Plan, replaceWith interface{}) error {
+	if result == nil {
+		return NilPlanError
 	}
 
 	// Sanitize ResourceChanges
 	for i := range result.ResourceChanges {
-		result.ResourceChanges[i].Change, err = SanitizeChange(result.ResourceChanges[i].Change, replaceWith)
-		if err != nil {
-			return nil, err
-		}
+		SanitizeChange(result.ResourceChanges[i].Change, replaceWith)
 	}
 
 	// Sanitize ResourceDrifts
 	for i := range result.ResourceDrift {
-		result.ResourceDrift[i].Change, err = SanitizeChange(result.ResourceDrift[i].Change, replaceWith)
-		if err != nil {
-			return nil, err
-		}
+		SanitizeChange(result.ResourceDrift[i].Change, replaceWith)
 	}
 
 	// Sanitize Variables
-	result.Variables, err = SanitizePlanVariables(result.Variables, result.Config.RootModule.Variables, replaceWith)
-	if err != nil {
-		return nil, err
-	}
+	SanitizePlanVariables(result.Variables, result.Config.RootModule.Variables, replaceWith)
 
 	// Sanitize PlannedValues
-	result.PlannedValues.RootModule, err = SanitizeStateModule(
+	SanitizeStateModule(
 		result.PlannedValues.RootModule,
 		result.ResourceChanges,
 		SanitizeStateModuleChangeModeAfter,
 		replaceWith)
-	if err != nil {
-		return nil, err
-	}
 
-	result.PlannedValues.Outputs, err = SanitizeStateOutputs(result.PlannedValues.Outputs, replaceWith)
-	if err != nil {
-		return nil, err
-	}
+	SanitizeStateOutputs(result.PlannedValues.Outputs, replaceWith)
 
 	// Sanitize PriorState
 	if result.PriorState != nil {
-		result.PriorState.Values.RootModule, err = SanitizeStateModule(
+		SanitizeStateModule(
 			result.PriorState.Values.RootModule,
 			result.ResourceChanges,
 			SanitizeStateModuleChangeModeBefore,
 			replaceWith)
-		if err != nil {
-			return nil, err
-		}
 
-		result.PriorState.Values.Outputs, err = SanitizeStateOutputs(result.PriorState.Values.Outputs, replaceWith)
-		if err != nil {
-			return nil, err
-		}
+		SanitizeStateOutputs(result.PriorState.Values.Outputs, replaceWith)
 	}
 
 	// Sanitize OutputChanges
-	for k := range result.OutputChanges {
-		result.OutputChanges[k], err = SanitizeChange(result.OutputChanges[k], replaceWith)
-		if err != nil {
-			return nil, err
-		}
+	for _, v := range result.OutputChanges {
+		SanitizeChange(v, replaceWith)
 	}
 
 	// Sanitize ProviderConfigs
-	result.Config.ProviderConfigs, err = SanitizeProviderConfigs(result.Config.ProviderConfigs, replaceWith)
-	if err != nil {
-		return nil, err
-	}
+	SanitizeProviderConfigs(result.Config.ProviderConfigs, replaceWith)
 
 	// Sanitize RootModule recursively into module calls and child_modules
-	err = sanitizeModuleConfig(result.Config.RootModule, replaceWith)
-	if err != nil {
-		return nil, err
-	}
+	sanitizeModuleConfig(result.Config.RootModule, replaceWith)
 
 	// Sanitize RootModule outputs
-	result.Config.RootModule.Outputs, err = SanitizeConfigOutputs(result.Config.RootModule.Outputs, replaceWith)
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
+	SanitizeConfigOutputs(result.Config.RootModule.Outputs, replaceWith)
+	return nil
 }

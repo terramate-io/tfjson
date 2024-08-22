@@ -4,9 +4,8 @@
 package sanitize
 
 import (
-	"fmt"
-
 	"encoding/json"
+	"fmt"
 
 	"github.com/terramate-io/tfjson"
 )
@@ -30,61 +29,40 @@ const (
 // * SanitizeStateModuleChangeModeAfter for after_sensitive
 //
 // Sensitive values are replaced with the supplied replaceWith value.
-// A new state module tree is issued.
 func SanitizeStateModule(
-	old *tfjson.StateModule,
+	result *tfjson.StateModule,
 	resourceChanges []*tfjson.ResourceChange,
 	mode SanitizeStateModuleChangeMode,
 	replaceWith interface{},
-) (*tfjson.StateModule, error) {
-	result := &tfjson.StateModule{
-		Resources:    make([]*tfjson.StateResource, len(old.Resources)),
-		Address:      old.Address,
-		ChildModules: make([]*tfjson.StateModule, len(old.ChildModules)),
-	}
-
-	for i := range old.Resources {
-		var err error
-		result.Resources[i], err = sanitizeStateResource(
-			old.Resources[i],
-			findResourceChange(resourceChanges, old.Resources[i].Address),
+) {
+	for _, v := range result.Resources {
+		sanitizeStateResource(
+			v,
+			findResourceChange(resourceChanges, v.Address),
 			mode,
 			replaceWith,
 		)
-		if err != nil {
-			return nil, err
-		}
 	}
 
-	for i := range old.ChildModules {
-		var err error
-		result.ChildModules[i], err = SanitizeStateModule(
-			old.ChildModules[i],
+	for _, v := range result.ChildModules {
+		SanitizeStateModule(
+			v,
 			resourceChanges,
 			mode,
 			replaceWith,
 		)
-		if err != nil {
-			return nil, err
-		}
 	}
-
-	return result, nil
 }
 
 func sanitizeStateResource(
-	old *tfjson.StateResource,
+	result *tfjson.StateResource,
 	rc *tfjson.ResourceChange,
 	mode SanitizeStateModuleChangeMode,
 	replaceWith interface{},
-) (*tfjson.StateResource, error) {
-	result, err := copyStateResource(old)
-	if err != nil {
-		return nil, err
-	}
+) {
 	var sensitive interface{}
 	if rc == nil {
-		err = json.Unmarshal(old.SensitiveValues, &sensitive)
+		err := json.Unmarshal(result.SensitiveValues, &sensitive)
 		if err != nil {
 			return nil, err
 		}
@@ -100,8 +78,7 @@ func sanitizeStateResource(
 	}
 
 	// We can re-use sanitizeChangeValue here to do the sanitization.
-	result.AttributeValues = sanitizeChangeValue(result.AttributeValues, sensitive, replaceWith).(map[string]interface{})
-	return result, nil
+	_ = sanitizeChangeValue(result.AttributeValues, sensitive, replaceWith).(map[string]interface{})
 }
 
 func findResourceChange(resourceChanges []*tfjson.ResourceChange, addr string) *tfjson.ResourceChange {
@@ -118,19 +95,10 @@ func findResourceChange(resourceChanges []*tfjson.ResourceChange, addr string) *
 // SanitizeStateOutputs scans the supplied map of StateOutputs and
 // replaces any values of outputs marked as Sensitive with the value
 // supplied in replaceWith.
-//
-// A new copy of StateOutputs is returned.
-func SanitizeStateOutputs(old map[string]*tfjson.StateOutput, replaceWith interface{}) (map[string]*tfjson.StateOutput, error) {
-	result, err := copyStateOutputs(old)
-	if err != nil {
-		return nil, err
-	}
-
-	for k := range result {
-		if result[k].Sensitive {
-			result[k].Value = replaceWith
+func SanitizeStateOutputs(result map[string]*tfjson.StateOutput, replaceWith interface{}) {
+	for _, v := range result {
+		if v.Sensitive {
+			v.Value = replaceWith
 		}
 	}
-
-	return result, nil
 }
