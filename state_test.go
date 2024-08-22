@@ -5,7 +5,7 @@ package tfjson
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"os"
 	"testing"
 )
@@ -34,7 +34,7 @@ func TestStateUnmarshal_valid(t *testing.T) {
 	}
 	defer f.Close()
 
-	b, err := ioutil.ReadAll(f)
+	b, err := io.ReadAll(f)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -53,7 +53,7 @@ func TestStateUnmarshal_internalState(t *testing.T) {
 	}
 	defer f.Close()
 
-	b, err := ioutil.ReadAll(f)
+	b, err := io.ReadAll(f)
 	if err != nil {
 		t.Fatal(err)
 	}
