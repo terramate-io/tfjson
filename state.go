@@ -161,7 +161,7 @@ type StateResource struct {
 	// The JSON representation of the sensitivity of the resource's
 	// attribute values. Only attributes which are sensitive
 	// are included in this structure.
-	SensitiveValues json.RawMessage `json:"sensitive_values,omitempty"`
+	SensitiveValues interface{} `json:"sensitive_values,omitempty"`
 
 	// The addresses of the resources that this resource depends on.
 	DependsOn []string `json:"depends_on,omitempty"`
