@@ -55,22 +55,25 @@ func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
 	return old
 }
 
+var sanitizeAuxiliaryPostfix = []string{
+	"_base64",
+	"_base64sha1",
+	"_base64sha256",
+	"_base64sha512",
+	"_md5",
+	"_sha1",
+	"_sha256",
+	"_sha512",
+}
+
 func sanitizeAuxiliary(field string, values map[string]interface{}, sensitive, replaceWith interface{}) {
 	if val, ok := sensitive.(bool); !ok || !val {
 		return
 	}
 
-	for _, aux := range []string{
-		"base64",
-		"base64sha1",
-		"base64sha256",
-		"base64sha512",
-		"md5",
-		"sha1",
-		"sha256",
-		"sha512",
-	} {
-		auxField := field + "_" + aux
+	var auxField string
+	for _, aux := range sanitizeAuxiliaryPostfix {
+		auxField = field + aux
 		if val, ok := values[auxField]; ok && val != nil {
 			values[auxField] = replaceWith
 		}
