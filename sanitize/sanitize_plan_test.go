@@ -5,16 +5,35 @@ package sanitize
 
 import (
 	"encoding/json"
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
 	"github.com/sebdah/goldie/v2"
+
 	"github.com/terramate-io/tfjson"
 )
 
 const testDataDir = "testdata"
+
+func TestSanitizePlanEmpty(t *testing.T) {
+	t.Run("nil", func(t *testing.T) {
+		err := SanitizePlan(nil)
+		if !errors.Is(err, NilPlanError) {
+			t.Error("expected NilPlanError")
+		}
+	})
+
+	t.Run("empty", func(t *testing.T) {
+		plan := tfjson.Plan{}
+		err := SanitizePlan(&plan)
+		if err != nil {
+			t.Error(err)
+		}
+	})
+}
 
 func TestSanitizePlanGolden(t *testing.T) {
 	cases, err := goldenCases()
@@ -35,13 +54,15 @@ func testSanitizePlanGoldenEntry(c testGoldenCase) func(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		p, err = SanitizePlan(p)
+		err = SanitizePlan(p)
 		if err != nil {
 			t.Fatal(err)
 		}
 
 		g := goldie.New(t)
-		g.WithFixtureDir(testDataDir)
+		if err = g.WithFixtureDir(testDataDir); err != nil {
+			t.Fatal(err)
+		}
 		g.AssertJson(t, c.Name(), p)
 	}
 }
@@ -84,4 +105,28 @@ func goldenCases() ([]testGoldenCase, error) {
 	}
 
 	return result, err
+}
+
+func BenchmarkLargeChangeset(b *testing.B) {
+	b.StopTimer()
+	data, err := os.ReadFile(filepath.Join(testDataDir, "basic.json"))
+	if err != nil {
+		b.Fatal(err)
+	}
+	p := new(tfjson.Plan)
+	err = json.Unmarshal(data, p)
+	if err != nil {
+		b.Fatal(err)
+	}
+	b.StartTimer()
+
+	for i := 0; i < b.N; i++ {
+		err = SanitizePlan(p)
+		if err != nil {
+			b.Fatal(err)
+		}
+		if p == nil {
+			b.Fatal(err)
+		}
+	}
 }

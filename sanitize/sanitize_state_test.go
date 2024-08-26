@@ -7,8 +7,9 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/terramate-io/tfjson"
 	"github.com/zclconf/go-cty-debug/ctydebug"
+
+	"github.com/terramate-io/tfjson"
 )
 
 type testStateCase struct {
@@ -21,6 +22,13 @@ type testStateCase struct {
 
 func stateCases() []testStateCase {
 	return []testStateCase{
+		{
+			name:            "nil",
+			old:             nil,
+			resourceChanges: nil,
+			mode:            "",
+			expected:        nil,
+		},
 		{
 			name: "before",
 			old: &tfjson.StateModule{
@@ -189,20 +197,14 @@ func stateCases() []testStateCase {
 }
 
 func TestSanitizeStateModule(t *testing.T) {
-	for i, tc := range stateCases() {
+	for _, tc := range stateCases() {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
-			actual, err := SanitizeStateModule(tc.old, tc.resourceChanges, tc.mode, DefaultSensitiveValue)
-			if err != nil {
-				t.Fatal(err)
-			}
+			actual := tc.old
+			SanitizeStateModule(actual, tc.resourceChanges, tc.mode, DefaultSensitiveValue)
 
 			if diff := cmp.Diff(tc.expected, actual); diff != "" {
 				t.Errorf("SanitizeStateModule() mismatch (-expected +actual):\n%s", diff)
-			}
-
-			if diff := cmp.Diff(stateCases()[i].old, tc.old); diff != "" {
-				t.Errorf("SanitizeStateModule() altered original (-expected +actual):\n%s", diff)
 			}
 		})
 	}
@@ -216,6 +218,15 @@ type testOutputCase struct {
 
 func outputCases() []testOutputCase {
 	return []testOutputCase{
+		{
+			name: "nil values",
+			old: map[string]*tfjson.StateOutput{
+				"foo": nil,
+			},
+			expected: map[string]*tfjson.StateOutput{
+				"foo": nil,
+			},
+		},
 		{
 			name: "basic",
 			old: map[string]*tfjson.StateOutput{
@@ -241,20 +252,14 @@ func outputCases() []testOutputCase {
 }
 
 func TestSanitizeStateOutputs(t *testing.T) {
-	for i, tc := range outputCases() {
+	for _, tc := range outputCases() {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
-			actual, err := SanitizeStateOutputs(tc.old, DefaultSensitiveValue)
-			if err != nil {
-				t.Fatal(err)
-			}
+			actual := tc.old
+			SanitizeStateOutputs(tc.old, DefaultSensitiveValue)
 
 			if diff := cmp.Diff(tc.expected, actual, ctydebug.CmpOptions); diff != "" {
 				t.Errorf("SanitizeStateOutputs() mismatch (-expected +actual):\n%s", diff)
-			}
-
-			if diff := cmp.Diff(outputCases()[i].old, tc.old, ctydebug.CmpOptions); diff != "" {
-				t.Errorf("SanitizeStateOutputs() altered original (-expected +actual):\n%s", diff)
 			}
 		})
 	}

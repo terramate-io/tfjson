@@ -10,18 +10,12 @@ import (
 // SanitizeChange traverses a Change and replaces all values at
 // the particular locations marked by BeforeSensitive AfterSensitive
 // with the value supplied as replaceWith.
-//
-// A new change is issued.
-func SanitizeChange(old *tfjson.Change, replaceWith interface{}) (*tfjson.Change, error) {
-	result, err := copyChange(old)
-	if err != nil {
-		return nil, err
+func SanitizeChange(result *tfjson.Change, replaceWith interface{}) {
+	if result == nil {
+		return
 	}
-
 	result.Before = sanitizeChangeValue(result.Before, result.BeforeSensitive, replaceWith)
 	result.After = sanitizeChangeValue(result.After, result.AfterSensitive, replaceWith)
-
-	return result, nil
 }
 
 func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
@@ -37,14 +31,16 @@ func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
 	// arrays and objects.
 	switch values := old.(type) {
 	case []interface{}:
-		if filterSlice, ok := sensitive.([]interface{}); ok {
-			for i := range filterSlice {
-				if i >= len(values) {
-					break
-				}
-
-				values[i] = sanitizeChangeValue(values[i], filterSlice[i], replaceWith)
+		filterSlice, ok := sensitive.([]interface{})
+		if !ok {
+			break
+		}
+		for i := range filterSlice {
+			if i >= len(values) {
+				break
 			}
+
+			values[i] = sanitizeChangeValue(values[i], filterSlice[i], replaceWith)
 		}
 	case map[string]interface{}:
 		filterMap, ok := sensitive.(map[string]interface{})
@@ -64,22 +60,25 @@ func sanitizeChangeValue(old, sensitive, replaceWith interface{}) interface{} {
 	return old
 }
 
+var sanitizeAuxiliaryPostfix = []string{
+	"_base64",
+	"_base64sha1",
+	"_base64sha256",
+	"_base64sha512",
+	"_md5",
+	"_sha1",
+	"_sha256",
+	"_sha512",
+}
+
 func sanitizeAuxiliary(field string, values map[string]interface{}, sensitive, replaceWith interface{}) {
 	if val, ok := sensitive.(bool); !ok || !val {
 		return
 	}
 
-	for _, aux := range []string{
-		"base64",
-		"base64sha1",
-		"base64sha256",
-		"base64sha512",
-		"md5",
-		"sha1",
-		"sha256",
-		"sha512",
-	} {
-		auxField := field + "_" + aux
+	var auxField string
+	for _, aux := range sanitizeAuxiliaryPostfix {
+		auxField = field + aux
 		if val, ok := values[auxField]; ok && val != nil {
 			values[auxField] = replaceWith
 		}

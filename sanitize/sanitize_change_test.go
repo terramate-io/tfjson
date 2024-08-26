@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+
 	"github.com/terramate-io/tfjson"
 )
 
@@ -18,6 +19,11 @@ type testChangeCase struct {
 
 func changeCases() []testChangeCase {
 	return []testChangeCase{
+		{
+			name:     "nil",
+			old:      nil,
+			expected: nil,
+		},
 		{
 			name: "basic",
 			old: &tfjson.Change{
@@ -125,20 +131,14 @@ func changeCases() []testChangeCase {
 }
 
 func TestSanitizeChange(t *testing.T) {
-	for i, tc := range changeCases() {
+	for _, tc := range changeCases() {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
-			actual, err := SanitizeChange(tc.old, DefaultSensitiveValue)
-			if err != nil {
-				t.Fatal(err)
-			}
+			actual := tc.old
+			SanitizeChange(actual, DefaultSensitiveValue)
 
 			if diff := cmp.Diff(tc.expected, actual); diff != "" {
 				t.Errorf("SanitizeChange() mismatch (-expected +actual):\n%s", diff)
-			}
-
-			if diff := cmp.Diff(changeCases()[i].old, tc.old); diff != "" {
-				t.Errorf("SanitizeChange() altered original (-expected +actual):\n%s", diff)
 			}
 		})
 	}
