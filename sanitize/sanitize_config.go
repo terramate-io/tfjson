@@ -1,6 +1,6 @@
 package sanitize
 
-import "github.com/terramate-io/tfjson"
+import "github.com/terramate-io/tfjson/v2"
 
 // SanitizeProviderConfigs sanitises the constant_value from expressions of the provider_configs to the value set in replaceWith parameter.
 func SanitizeProviderConfigs(result map[string]*tfjson.ProviderConfig, replaceWith interface{}) {

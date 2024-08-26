@@ -8,7 +8,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/terramate-io/tfjson"
+	"github.com/terramate-io/tfjson/v2"
 )
 
 type testVariablesCase struct {

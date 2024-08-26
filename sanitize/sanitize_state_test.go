@@ -9,7 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/zclconf/go-cty-debug/ctydebug"
 
-	"github.com/terramate-io/tfjson"
+	"github.com/terramate-io/tfjson/v2"
 )
 
 type testStateCase struct {

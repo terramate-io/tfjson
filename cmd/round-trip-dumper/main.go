@@ -11,7 +11,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/terramate-io/tfjson"
+	"github.com/terramate-io/tfjson/v2"
 )
 
 var (

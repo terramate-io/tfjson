@@ -4,7 +4,7 @@
 package sanitize
 
 import (
-	"github.com/terramate-io/tfjson"
+	"github.com/terramate-io/tfjson/v2"
 )
 
 // SanitizeChange traverses a Change and replaces all values at
