@@ -13,7 +13,7 @@ import (
 
 	"github.com/sebdah/goldie/v2"
 
-	"github.com/terramate-io/tfjson"
+	"github.com/terramate-io/tfjson/v2"
 )
 
 const testDataDir = "testdata"

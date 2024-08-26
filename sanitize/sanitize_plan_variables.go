@@ -4,7 +4,7 @@
 package sanitize
 
 import (
-	"github.com/terramate-io/tfjson"
+	"github.com/terramate-io/tfjson/v2"
 )
 
 // SanitizePlanVariables traverses a map of PlanVariable and replaces

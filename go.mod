@@ -1,4 +1,4 @@
-module github.com/terramate-io/tfjson
+module github.com/terramate-io/tfjson/v2
 
 go 1.20
 
