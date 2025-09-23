@@ -1,6 +1,6 @@
 module github.com/terramate-io/tfjson/v2
 
-go 1.20
+go 1.24
 
 require (
 	github.com/davecgh/go-spew v1.1.1

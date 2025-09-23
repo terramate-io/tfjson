@@ -14,17 +14,19 @@ env:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os.value }}
     timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
-          - macos-latest
+          - name: ubuntu
+            value: "ubuntu-24.04"
+          - name: macos-ventura
+            value: "macos-13"
         go:
-          - "1.20"
-          - "1.21"
+          - "1.24"
+          - "1.25"
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -42,7 +44,7 @@ jobs:
   ci:
     needs:
       - test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Required Checks
         run: echo "All required checks worked"
